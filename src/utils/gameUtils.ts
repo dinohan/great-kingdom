@@ -7,7 +7,7 @@ const {
   N,
 } = EntityAlias
 
-export const DefaultBoard = [
+export const InitialBoard = [
   [_, _, _, _, _, _, _, _, _],
   [_, _, _, _, _, _, _, _, _],
   [_, _, _, _, _, _, _, _, _],
@@ -128,7 +128,7 @@ export function isHouse(
 }
 
 export function getBoardFromLog(log: Coordinate[]): Board {
-  const board = DefaultBoard.map(row => [...row]);
+  const board = InitialBoard.map(row => [...row]);
 
   log.forEach((coordinate, index) => {
     const [y, x] = getNumberFromCoordinate(coordinate);
