@@ -46,9 +46,9 @@ describe('utils test', () => {
   })
 
 
-  describe('isHouse', () => {
+  describe('searchBoardFrom', () => {
     it('영역을 잘 구분하는가', () => {
-      expect(utils.isHouse(0, 0, [
+      expect(utils.searchBoardFrom(0, 0, [
         [_, _, _, _, _, _, _, _, _],
         [_, _, _, _, _, _, _, _, _],
         [_, _, _, _, _, _, _, _, _],
@@ -60,7 +60,7 @@ describe('utils test', () => {
         [_, _, _, _, _, _, _, _, _],
       ])[0]).toBe(_)
   
-      expect(utils.isHouse(0, 0, [
+      expect(utils.searchBoardFrom(0, 0, [
         [_, W, _, _, _, _, _, _, _],
         [W, _, _, _, _, _, _, _, _],
         [_, _, _, _, _, _, _, _, _],
@@ -84,16 +84,16 @@ describe('utils test', () => {
         [_, _, W, _, _, _, W, _, _],
       ]
   
-      expect(utils.isHouse(0, 0, board2)[0]).toBe(w)
-      expect(utils.isHouse(3, 0, board2)[0]).toBe(w)
-      expect(utils.isHouse(3, 1, board2)[0]).toBe(w)
+      expect(utils.searchBoardFrom(0, 0, board2)[0]).toBe(w)
+      expect(utils.searchBoardFrom(3, 0, board2)[0]).toBe(w)
+      expect(utils.searchBoardFrom(3, 1, board2)[0]).toBe(w)
   
-      expect(utils.isHouse(0, 5, board2)[0]).toBe(b)
-      expect(utils.isHouse(4, 5, board2)[0]).toBe(b)
+      expect(utils.searchBoardFrom(0, 5, board2)[0]).toBe(b)
+      expect(utils.searchBoardFrom(4, 5, board2)[0]).toBe(b)
   
-      expect(utils.isHouse(3, 2, board2)[0]).toBe(W)
-      expect(utils.isHouse(3, 3, board2)[0]).toBe(_)
-      expect(utils.isHouse(8, 8, board2)[0]).toBe(_)
+      expect(utils.searchBoardFrom(3, 2, board2)[0]).toBe(W)
+      expect(utils.searchBoardFrom(3, 3, board2)[0]).toBe(_)
+      expect(utils.searchBoardFrom(8, 8, board2)[0]).toBe(_)
     })
 
     it('연결된 모든 공간을 탐색하는가', () => {
@@ -109,7 +109,7 @@ describe('utils test', () => {
         [_, _, W, _, _, _, W, _, _],
       ]
 
-      expect(utils.isHouse(3, 0, board)[1]).toEqual([
+      expect(utils.searchBoardFrom(3, 0, board)[1]).toEqual([
         [x, x, x, x, x, x, x, x, x],
         [x, x, x, x, x, x, x, x, x],
         [O, O, x, x, x, x, x, x, x],
@@ -121,7 +121,7 @@ describe('utils test', () => {
         [O, O, x, x, x, x, x, x, x],
       ])
 
-      expect(utils.isHouse(8, 8, board)[1]).toEqual([
+      expect(utils.searchBoardFrom(8, 8, board)[1]).toEqual([
         [x, x, x, x, x, x, x, x, x],
         [x, x, x, x, x, x, x, x, x],
         [x, x, x, x, x, x, x, x, x],
@@ -132,6 +132,27 @@ describe('utils test', () => {
         [x, x, x, x, x, x, x, O, O],
         [x, x, x, x, x, x, x, O, O],
       ])
+    })
+  })
+
+  describe('copyBoard', () => {
+    it('보드를 복사하는가', () => {
+      const board: BoardWithoutHouse = [
+        [_, W, _, _, B, _, B, _, _],
+        [W, W, _, _, _, B, _, _, _],
+        [_, _, W, _, _, _, _, _, _],
+        [_, _, W, _, _, B, _, _, _],
+        [_, _, W, _, N, _, B, _, _],
+        [_, _, W, _, _, B, _, W, W],
+        [_, _, W, _, _, _, W, B, _],
+        [_, _, W, _, _, _, W, _, _],
+        [_, _, W, _, _, _, W, _, _],
+      ]
+
+      const copiedBoard = utils.copyBoard(board)
+
+      expect(copiedBoard).toEqual(board)
+      expect(copiedBoard).not.toBe(board)
     })
   })
 })

@@ -61,7 +61,7 @@ export function meetBothEntity(meeted: Meeted): boolean {
   return meeted[Piece.White] && meeted[Piece.Black];
 }
 
-export function isHouse(
+export function searchBoardFrom(
   y: number,
   x: number,
   board: BoardWithoutHouse,
@@ -159,6 +159,10 @@ export function isHouse(
   if (meeted[Piece.Black]) { return [House.Black, visited] }
 
   return [null, visited]
+}
+
+export function copyBoard<E>(board: Board<E>): Board<E> {
+  return board.map(row => [...row]);
 }
 
 export function getBoardFromLog(log: Coordinate[]): Board {
