@@ -1,6 +1,6 @@
 import { Board, BoardWithoutHouse } from "../models/Board";
 import Coordinate, { Row, Column, isValidCoordinate } from "../models/Coordinate";
-import { Piece, EntityAlias, House } from "../models/Entity";
+import { Piece, EntityAlias, House, isHouse } from "../models/Entity";
 
 const {
   _,
@@ -167,6 +167,31 @@ export function copyBoard<E>(board: Board<E>): Board<E> {
 
 export function generateBoard<I>(item: I): Board<I> {
   return InitialBoard.map(row => row.map(() => item));
+}
+
+export function buildHouseFromBoard(board: BoardWithoutHouse): Board {
+  const result = copyBoard<Piece | House | null>(board);
+  let visited = generateBoard(false);
+
+  board.forEach((row, y) => {
+    row.forEach((cell, x) => {
+      if (visited[y][x]) { return }
+      if (cell === null) {
+        const [entity, $visited] = searchBoardFrom(y, x, board)
+        visited = visited.map((row, y) => row.map((cell, x) => cell || $visited[y][x]))
+
+        if (isHouse(entity)) {
+          $visited.forEach((row, y) => {
+            row.forEach((cell, x) => {
+              if (cell) { result[y][x] = entity }
+            })
+          })
+        }
+      }
+    })
+  })
+
+  return result;
 }
 
 export function getBoardFromLog(log: Coordinate[]): Board {

@@ -183,4 +183,32 @@ describe('utils test', () => {
       ])
     })
   })
+
+  describe('buildHouseFromBoard', () => {
+    it('보드에서 집을 빌드하는가', () => {
+      const board: BoardWithoutHouse = [
+        [_, W, _, _, B, _, B, _, _],
+        [W, W, _, _, _, B, _, _, _],
+        [_, _, W, _, _, _, _, _, _],
+        [_, _, W, _, _, B, _, _, _],
+        [_, _, W, _, N, _, B, _, _],
+        [_, _, W, _, _, B, _, W, W],
+        [_, _, W, _, _, _, W, B, _],
+        [_, _, W, _, _, _, W, _, _],
+        [_, _, W, _, _, _, W, _, _],
+      ]
+
+      expect(utils.buildHouseFromBoard(board)).toEqual([
+        [w, W, _, _, B, b, B, _, _],
+        [W, W, _, _, _, B, _, _, _],
+        [w, w, W, _, _, _, _, _, _],
+        [w, w, W, _, _, B, _, _, _],
+        [w, w, W, _, N, b, B, _, _],
+        [w, w, W, _, _, B, _, W, W],
+        [w, w, W, _, _, _, W, B, _],
+        [w, w, W, _, _, _, W, _, _],
+        [w, w, W, _, _, _, W, _, _],
+      ])
+    })
+  })
 })
