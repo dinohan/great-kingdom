@@ -1,6 +1,6 @@
 import { Board, BoardWithoutHouse } from "../models/Board";
 import Coordinate, { Row, Column, isValidCoordinate } from "../models/Coordinate";
-import { Entity, EntityAlias, House } from "../models/Entity";
+import { Piece, EntityAlias, House } from "../models/Entity";
 
 const {
   _,
@@ -38,8 +38,8 @@ type Meeted = {
   neutralBottom: boolean,
   neutralLeft: boolean,
   neutralRight: boolean,
-  [Entity.White]: boolean,
-  [Entity.Black]: boolean,
+  [Piece.White]: boolean,
+  [Piece.Black]: boolean,
 }
 
 export function meetMoreThenFourSide(meeted: Meeted): boolean {
@@ -58,14 +58,14 @@ export function meetMoreThenFourSide(meeted: Meeted): boolean {
 }
 
 export function meetBothEntity(meeted: Meeted): boolean {
-  return meeted[Entity.White] && meeted[Entity.Black];
+  return meeted[Piece.White] && meeted[Piece.Black];
 }
 
 export function isHouse(
   y: number,
   x: number,
   board: BoardWithoutHouse,
-): [null | Entity | House, Board<boolean>] {
+): [null | Piece | House, Board<boolean>] {
   if (
     y < 0 ||
     y > 8 ||
@@ -87,9 +87,9 @@ export function isHouse(
     [false, false, false, false, false, false, false, false, false],
   ];
 
-  if (board[y][x] === Entity.Black) { return [Entity.Black, visited] }
-  if (board[y][x] === Entity.White) { return [Entity.White, visited] }
-  if (board[y][x] === Entity.Neutral) { return [Entity.Neutral, visited] }
+  if (board[y][x] === Piece.Black) { return [Piece.Black, visited] }
+  if (board[y][x] === Piece.White) { return [Piece.White, visited] }
+  if (board[y][x] === Piece.Neutral) { return [Piece.Neutral, visited] }
 
   const meeted: Meeted = {
     boardTop: false,
@@ -100,8 +100,8 @@ export function isHouse(
     neutralBottom: false,
     neutralLeft: false,
     neutralRight: false,
-    [Entity.White]: false,
-    [Entity.Black]: false,
+    [Piece.White]: false,
+    [Piece.Black]: false,
   }
 
   function dfs(y: number, x: number) {
@@ -117,33 +117,33 @@ export function isHouse(
     if (top) {
       meeted.boardTop = true
     } else {
-      if (board[y-1][x] === Entity.White) { meeted[Entity.White] = true }
-      if (board[y-1][x] === Entity.Black) { meeted[Entity.Black] = true }
-      if (board[y-1][x] === Entity.Neutral) { meeted.neutralTop = true }
+      if (board[y-1][x] === Piece.White) { meeted[Piece.White] = true }
+      if (board[y-1][x] === Piece.Black) { meeted[Piece.Black] = true }
+      if (board[y-1][x] === Piece.Neutral) { meeted.neutralTop = true }
       if (board[y-1][x] === null) { dfs(y-1, x) }
     }
     if (bottom) {
       meeted.boardBottom = true
     } else {
-      if (board[y+1][x] === Entity.White) { meeted[Entity.White] = true }
-      if (board[y+1][x] === Entity.Black) { meeted[Entity.Black] = true }
-      if (board[y+1][x] === Entity.Neutral) { meeted.neutralBottom = true }
+      if (board[y+1][x] === Piece.White) { meeted[Piece.White] = true }
+      if (board[y+1][x] === Piece.Black) { meeted[Piece.Black] = true }
+      if (board[y+1][x] === Piece.Neutral) { meeted.neutralBottom = true }
       if (board[y+1][x] === null) { dfs(y+1, x) }
     }
     if (left) {
       meeted.boardLeft = true
     } else {
-      if (board[y][x-1] === Entity.White) { meeted[Entity.White] = true }
-      if (board[y][x-1] === Entity.Black) { meeted[Entity.Black] = true }
-      if (board[y][x-1] === Entity.Neutral) { meeted.neutralLeft = true }
+      if (board[y][x-1] === Piece.White) { meeted[Piece.White] = true }
+      if (board[y][x-1] === Piece.Black) { meeted[Piece.Black] = true }
+      if (board[y][x-1] === Piece.Neutral) { meeted.neutralLeft = true }
       if (board[y][x-1] === null) { dfs(y, x-1) }
     }
     if (right) {
       meeted.boardRight = true
     } else {
-      if (board[y][x+1] === Entity.White) { meeted[Entity.White] = true }
-      if (board[y][x+1] === Entity.Black) { meeted[Entity.Black] = true }
-      if (board[y][x+1] === Entity.Neutral) { meeted.neutralRight = true }
+      if (board[y][x+1] === Piece.White) { meeted[Piece.White] = true }
+      if (board[y][x+1] === Piece.Black) { meeted[Piece.Black] = true }
+      if (board[y][x+1] === Piece.Neutral) { meeted.neutralRight = true }
       if (board[y][x+1] === null) { dfs(y, x+1) }
     }
 
@@ -155,8 +155,8 @@ export function isHouse(
   if (meetBothEntity(meeted)) { return [null, visited] }
   if (meetMoreThenFourSide(meeted)) { return [null, visited] }
 
-  if (meeted[Entity.White]) { return [House.White, visited] }
-  if (meeted[Entity.Black]) { return [House.Black, visited] }
+  if (meeted[Piece.White]) { return [House.White, visited] }
+  if (meeted[Piece.Black]) { return [House.Black, visited] }
 
   return [null, visited]
 }
@@ -167,7 +167,7 @@ export function getBoardFromLog(log: Coordinate[]): Board {
   log.forEach((coordinate, index) => {
     const [y, x] = getNumberFromCoordinate(coordinate);
 
-    board[y][x] = index % 2 === 0 ? Entity.Black : Entity.White;
+    board[y][x] = index % 2 === 0 ? Piece.Black : Piece.White;
   })
 
   return board;

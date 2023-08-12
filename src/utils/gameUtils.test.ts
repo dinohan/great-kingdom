@@ -1,7 +1,7 @@
 import { describe, it, expect} from 'vitest'
 
 import * as utils from './gameUtils'
-import { EntityAlias, Entity } from '../models/Entity'
+import { EntityAlias, Piece } from '../models/Entity'
 import { BoardWithoutHouse } from '../models/Board'
 
 const {
@@ -27,8 +27,8 @@ describe('utils test', () => {
       neutralBottom: false,
       neutralLeft: false,
       neutralRight: false,
-      [Entity.White]: false,
-      [Entity.Black]: false,
+      [Piece.White]: false,
+      [Piece.Black]: false,
     })).toBe(false)
 
     expect(utils.meetMoreThenFourSide({
@@ -40,8 +40,8 @@ describe('utils test', () => {
       neutralBottom: false,
       neutralLeft: false,
       neutralRight: false,
-      [Entity.White]: false,
-      [Entity.Black]: false,
+      [Piece.White]: false,
+      [Piece.Black]: false,
     })).toBe(true)
   })
 

@@ -1,10 +1,10 @@
-import { Entity, House } from "../models/Entity"
+import { Piece, House } from "../models/Entity"
 import styles from './Space.module.scss'
 
 function Space({
   entity,
 }:{
-  entity: Entity | House | null,
+  entity: Piece | House | null,
 }) {
   return (
     <div className={styles.wrapper}>
