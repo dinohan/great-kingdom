@@ -29,7 +29,7 @@ function Space({
   )
 
   return (
-    <div
+    <button
       className={classNames(
         styles.wrapper,
         {
@@ -41,7 +41,7 @@ function Space({
     >
       { PieceComponent }
       { Empty }
-    </div>
+    </button>
   )
 }
 
