@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import Game from './pages/Game.tsx';
+import Game from './pages/Game/Game.tsx';
 
 const router = createBrowserRouter([
   {
