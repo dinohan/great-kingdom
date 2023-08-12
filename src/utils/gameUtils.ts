@@ -65,7 +65,7 @@ export function isHouse(
   y: number,
   x: number,
   board: BoardWithoutHouse,
-): null | Entity | House {
+): [null | Entity | House, Board<boolean>] {
   if (
     y < 0 ||
     y > 8 ||
@@ -73,23 +73,6 @@ export function isHouse(
     x > 8
   ) {
     throw new Error('Invalid coordinate');
-  }
-
-  if (board[y][x] === Entity.Black) { return Entity.Black }
-  if (board[y][x] === Entity.White) { return Entity.White }
-  if (board[y][x] === Entity.Neutral) { return Entity.Neutral }
-
-  const meeted: Meeted = {
-    boardTop: false,
-    boardBottom: false,
-    boardLeft: false,
-    boardRight: false,
-    neutralTop: false,
-    neutralBottom: false,
-    neutralLeft: false,
-    neutralRight: false,
-    [Entity.White]: false,
-    [Entity.Black]: false,
   }
 
   const visited: boolean[][] = [
@@ -103,6 +86,23 @@ export function isHouse(
     [false, false, false, false, false, false, false, false, false],
     [false, false, false, false, false, false, false, false, false],
   ];
+
+  if (board[y][x] === Entity.Black) { return [Entity.Black, visited] }
+  if (board[y][x] === Entity.White) { return [Entity.White, visited] }
+  if (board[y][x] === Entity.Neutral) { return [Entity.Neutral, visited] }
+
+  const meeted: Meeted = {
+    boardTop: false,
+    boardBottom: false,
+    boardLeft: false,
+    boardRight: false,
+    neutralTop: false,
+    neutralBottom: false,
+    neutralLeft: false,
+    neutralRight: false,
+    [Entity.White]: false,
+    [Entity.Black]: false,
+  }
 
   function dfs(y: number, x: number) {
     if (visited[y][x]) { return }
@@ -152,13 +152,13 @@ export function isHouse(
 
   dfs(y, x);
 
-  if (meetBothEntity(meeted)) { return null }
-  if (meetMoreThenFourSide(meeted)) { return null }
+  if (meetBothEntity(meeted)) { return [null, visited] }
+  if (meetMoreThenFourSide(meeted)) { return [null, visited] }
 
-  if (meeted[Entity.White]) { return House.White }
-  if (meeted[Entity.Black]) { return House.Black }
+  if (meeted[Entity.White]) { return [House.White, visited] }
+  if (meeted[Entity.Black]) { return [House.Black, visited] }
 
-  return null
+  return [null, visited]
 }
 
 export function getBoardFromLog(log: Coordinate[]): Board {
