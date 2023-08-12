@@ -1,6 +1,6 @@
 import { Board, BoardWithoutHouse } from "../models/Board";
 import Coordinate, { Row, Column, isValidCoordinate } from "../models/Coordinate";
-import { Entity, EntityAlias } from "../models/Entity";
+import { Entity, EntityAlias, House } from "../models/Entity";
 
 const {
   _,
@@ -29,7 +29,7 @@ function getNumberFromCoordinate(coordinate: Coordinate): [number, number] {
   return [Rows.indexOf(row), x];
 }
 
-type Sides = {
+type Meeted = {
   boardTop: boolean,
   boardBottom: boolean,
   boardLeft: boolean,
@@ -38,27 +38,48 @@ type Sides = {
   neutralBottom: boolean,
   neutralLeft: boolean,
   neutralRight: boolean,
+  [Entity.White]: boolean,
+  [Entity.Black]: boolean,
 }
 
-export function meetMoreThenFourSide(sides: Sides): boolean {
-  return Object.values(sides).filter(Boolean).length >= 4;
+export function meetMoreThenFourSide(meeted: Meeted): boolean {
+  let count = 0;
+
+  meeted.boardTop && count++;
+  meeted.boardBottom && count++;
+  meeted.boardLeft && count++;
+  meeted.boardRight && count++;
+  meeted.neutralTop && count++;
+  meeted.neutralBottom && count++;
+  meeted.neutralLeft && count++;
+  meeted.neutralRight && count++;
+
+  return count >= 4;
+}
+
+export function meetBothEntity(meeted: Meeted): boolean {
+  return meeted[Entity.White] && meeted[Entity.Black];
 }
 
 export function isHouse(
   y: number,
   x: number,
   board: BoardWithoutHouse,
-  entity: Entity.Black | Entity.White
-): boolean {
+): null | Entity | House {
   if (
-    board[y][x] === Entity.Black ||
-    board[y][x] === Entity.White ||
-    board[y][x] === Entity.Neutral
+    y < 0 ||
+    y > 8 ||
+    x < 0 ||
+    x > 8
   ) {
-    return false
+    throw new Error('Invalid coordinate');
   }
 
-  const meetedSides: Sides = {
+  if (board[y][x] === Entity.Black) { return Entity.Black }
+  if (board[y][x] === Entity.White) { return Entity.White }
+  if (board[y][x] === Entity.Neutral) { return Entity.Neutral }
+
+  const meeted: Meeted = {
     boardTop: false,
     boardBottom: false,
     boardLeft: false,
@@ -67,6 +88,8 @@ export function isHouse(
     neutralBottom: false,
     neutralLeft: false,
     neutralRight: false,
+    [Entity.White]: false,
+    [Entity.Black]: false,
   }
 
   const visited: boolean[][] = [
@@ -81,10 +104,6 @@ export function isHouse(
     [false, false, false, false, false, false, false, false, false],
   ];
 
-  const opositeEntity = entity === Entity.Black ? Entity.White : Entity.Black;
-
-  let isHouse = true;
-
   function dfs(y: number, x: number) {
     if (visited[y][x]) { return }
 
@@ -95,36 +114,51 @@ export function isHouse(
     const left = x === 0
     const right = x === 8
 
-    if (!top && board[y-1][x] === opositeEntity) { isHouse = false; }
-    if (!bottom && board[y+1][x] === opositeEntity) { isHouse = false; }
-    if (!left && board[y][x-1] === opositeEntity) { isHouse = false; }
-    if (!right && board[y][x+1] === opositeEntity) { isHouse = false; }
-
-    if (top) { meetedSides.boardTop = true }
-    if (bottom) { meetedSides.boardBottom = true }
-    if (left) { meetedSides.boardLeft = true }
-    if (right) { meetedSides.boardRight = true }
-
-    if (!top && board[y-1][x] === Entity.Neutral) { meetedSides.neutralTop = true }
-    if (!bottom && board[y+1][x] === Entity.Neutral) { meetedSides.neutralBottom = true }
-    if (!left && board[y][x-1] === Entity.Neutral) { meetedSides.neutralLeft = true }
-    if (!right && board[y][x+1] === Entity.Neutral) { meetedSides.neutralRight = true }
-
-    if (meetMoreThenFourSide(meetedSides)) {
-      isHouse = false;
+    if (top) {
+      meeted.boardTop = true
+    } else {
+      if (board[y-1][x] === Entity.White) { meeted[Entity.White] = true }
+      if (board[y-1][x] === Entity.Black) { meeted[Entity.Black] = true }
+      if (board[y-1][x] === Entity.Neutral) { meeted.neutralTop = true }
+      if (board[y-1][x] === null) { dfs(y-1, x) }
     }
-
-    if(!top && board[y-1][x] === null) { dfs(y-1, x)}
-    if(!bottom && board[y+1][x] === null) { dfs(y+1, x)}
-    if(!left && board[y][x-1] === null) { dfs(y, x-1)}
-    if(!right && board[y][x+1] === null) { dfs(y, x+1)}
+    if (bottom) {
+      meeted.boardBottom = true
+    } else {
+      if (board[y+1][x] === Entity.White) { meeted[Entity.White] = true }
+      if (board[y+1][x] === Entity.Black) { meeted[Entity.Black] = true }
+      if (board[y+1][x] === Entity.Neutral) { meeted.neutralBottom = true }
+      if (board[y+1][x] === null) { dfs(y+1, x) }
+    }
+    if (left) {
+      meeted.boardLeft = true
+    } else {
+      if (board[y][x-1] === Entity.White) { meeted[Entity.White] = true }
+      if (board[y][x-1] === Entity.Black) { meeted[Entity.Black] = true }
+      if (board[y][x-1] === Entity.Neutral) { meeted.neutralLeft = true }
+      if (board[y][x-1] === null) { dfs(y, x-1) }
+    }
+    if (right) {
+      meeted.boardRight = true
+    } else {
+      if (board[y][x+1] === Entity.White) { meeted[Entity.White] = true }
+      if (board[y][x+1] === Entity.Black) { meeted[Entity.Black] = true }
+      if (board[y][x+1] === Entity.Neutral) { meeted.neutralRight = true }
+      if (board[y][x+1] === null) { dfs(y, x+1) }
+    }
 
     return;
   }
 
   dfs(y, x);
 
-  return isHouse
+  if (meetBothEntity(meeted)) { return null }
+  if (meetMoreThenFourSide(meeted)) { return null }
+
+  if (meeted[Entity.White]) { return House.White }
+  if (meeted[Entity.Black]) { return House.Black }
+
+  return null
 }
 
 export function getBoardFromLog(log: Coordinate[]): Board {

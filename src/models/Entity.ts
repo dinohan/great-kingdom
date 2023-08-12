@@ -2,8 +2,11 @@ export enum Entity {
   Black = 'B',
   White = 'W',
   Neutral = 'N',
-  BlackHouse = 'BH',
-  WhiteHouse = 'WH',
+}
+
+export enum House {
+  Black = 'b',
+  White = 'w',
 }
 
 export const EntityAlias = {
@@ -11,6 +14,6 @@ export const EntityAlias = {
   B: Entity.Black,
   W: Entity.White,
   N: Entity.Neutral,
-  b: Entity.BlackHouse,
-  w: Entity.WhiteHouse,
+  b: House.Black,
+  w: House.White,
 } as const
