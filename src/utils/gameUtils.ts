@@ -194,6 +194,10 @@ export function buildHouseFromBoard(board: BoardWithoutHouse): Board {
   return result;
 }
 
+export function build(board: BoardWithoutHouse): Board {
+  return buildHouseFromBoard(board);
+}
+
 export function getBoardFromLog(log: Coordinate[]): Board {
   const board = InitialBoard.map(row => [...row]);
 
