@@ -1,9 +1,9 @@
-import { Entity } from "../models/Entity"
+import { Entity, House } from "../models/Entity"
 
 function Space({
   entity,
 }:{
-  entity: Entity | null,
+  entity: Entity | House | null,
 }) {
   return (
     <div>

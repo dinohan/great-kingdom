@@ -1,5 +1,5 @@
-import { Entity } from "./Entity"
+import { Entity, House } from "./Entity"
 
-export type Board<E = Entity | null> = Array<Array<E>>
+export type Board<E = Entity | House | null> = Array<Array<E>>
 
-export type BoardWithoutHouse = Board<Entity.Black | Entity.White | Entity.Neutral | null>
+export type BoardWithoutHouse = Board<Entity | null>
