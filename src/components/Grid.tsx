@@ -1,5 +1,6 @@
 import { Board } from "../models/Board"
 import Space from "./Space"
+import styles from './Grid.module.scss'
 
 function Grid({
   board,
@@ -7,15 +8,17 @@ function Grid({
   board: Board
 }) {
   return (
-  <>
-  {
-    board.map((row, i) => (
-      row.map((entity, j) => (
-        <Space key={`${i}-${j}`} entity={entity} />
-      ))
-    ))
-  }
-  </>
+  <div className={styles.wrapper}>
+    <div className={styles.grid}>
+      {
+        board.map((row, i) => (
+          row.map((entity, j) => (
+            <Space key={`${i}-${j}`} entity={entity} />
+          ))
+        ))
+      }
+    </div>
+  </div>
   )
 }
 
