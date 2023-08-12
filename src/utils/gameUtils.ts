@@ -165,6 +165,10 @@ export function copyBoard<E>(board: Board<E>): Board<E> {
   return board.map(row => [...row]);
 }
 
+export function generateBoard<I>(item: I): Board<I> {
+  return InitialBoard.map(row => row.map(() => item));
+}
+
 export function getBoardFromLog(log: Coordinate[]): Board {
   const board = InitialBoard.map(row => [...row]);
 
