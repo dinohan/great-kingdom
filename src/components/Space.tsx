@@ -1,6 +1,9 @@
 import { Piece, House, isPiece } from "../models/Entity"
 import classNames from 'classnames'
 import styles from './Space.module.scss'
+import { Turn } from "../models/Turn"
+
+const currentTurn: Turn = Turn.BLACK
 
 function Space({
   entity,
@@ -28,6 +31,23 @@ function Space({
     </div>
   )
 
+  const disabled = entity !== null
+
+  const HoverPiece = !disabled && (
+    <div className={styles.pieceWrapper}>
+      <div
+        className={classNames(
+          styles.piece,
+          styles.hoverPiece,
+          {
+            [styles.white]: currentTurn === Turn.WHITE,
+            [styles.black]: currentTurn === Turn.BLACK,
+          }
+        )}
+      />
+    </div>
+  )
+
   return (
     <button
       className={classNames(
@@ -38,7 +58,9 @@ function Space({
           [styles.neutral]: entity === Piece.Neutral,
         },
       )}
+      disabled={disabled}
     >
+      { HoverPiece }
       { PieceComponent }
       { Empty }
     </button>
