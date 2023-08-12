@@ -84,6 +84,7 @@ describe('utils test', () => {
         [_, _, W, _, _, _, W, _, _],
       ]
   
+      expect(utils.isHouse(0, 0, board2)[0]).toBe(w)
       expect(utils.isHouse(3, 0, board2)[0]).toBe(w)
       expect(utils.isHouse(3, 1, board2)[0]).toBe(w)
   
@@ -131,7 +132,6 @@ describe('utils test', () => {
         [x, x, x, x, x, x, x, O, O],
         [x, x, x, x, x, x, x, O, O],
       ])
-
     })
   })
 })
