@@ -1,11 +1,11 @@
 import { create } from "zustand";
 import Coordinate from "../../models/Coordinate";
 
-type State = {
+export type State = {
   log: Coordinate[];
 }
 
-type Actions = {
+export type Actions = {
   addLog: (coordinate: Coordinate) => void;
 }
 

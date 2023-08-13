@@ -2,7 +2,7 @@ import { Piece, House, isPiece } from "../models/Entity"
 import classNames from 'classnames'
 import styles from './Space.module.scss'
 import { Turn } from "../models/Turn"
-import { useGameStore } from "../store/gameStore/useGameStore"
+import { useGameStore } from "../store/game/useGameStore"
 import { getCoordinateFromNumber } from "../utils/gameUtils"
 
 const currentTurn: Turn = Turn.BLACK
