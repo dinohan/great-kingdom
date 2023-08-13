@@ -5,11 +5,13 @@
   "types": "./index.ts",
   "scripts": {
     "lint": "eslint \"**/*.ts*\"",
-    "test": ""
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "devDependencies": {
+    "model": "*",
     "tsconfig": "*",
     "typescript": "^4.5.2",
-    "model": "*"
+    "vitest": "^0.34.1"
   }
 }
