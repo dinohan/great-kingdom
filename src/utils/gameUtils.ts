@@ -17,16 +17,18 @@ export const InitialBoard = [
   [_, _, _, _, _, _, _, _, _],
   [_, _, _, _, _, _, _, _, _],
   [_, _, _, _, _, _, _, _, _],
-] as Board;
+]
 
-const Rows: Row[] = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'];
-const Columns: Column[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+const Columns: Column[] = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'];
+const Rows: Row[] = ['9', '8', '7', '6', '5', '4', '3', '2', '1'];
 
 function getNumberFromCoordinate(coordinate: Coordinate): [number, number] {
-  const [row, column] = coordinate.split('') as [Row, Column];
-  const x = parseInt(column, 10) - 1;
+  const [column, row] = coordinate.split('') as [Column, Row];
 
-  return [Rows.indexOf(row), x];
+  return [
+    Rows.indexOf(row),
+    Columns.indexOf(column)
+  ];
 }
 
 type Meeted = {
@@ -198,8 +200,8 @@ export function build(board: BoardWithoutHouse): Board {
   return buildHouseFromBoard(board);
 }
 
-export function getBoardFromLog(log: Coordinate[]): Board {
-  const board = InitialBoard.map(row => [...row]);
+export function getBoardFromLog(log: Coordinate[]): BoardWithoutHouse {
+  const board = copyBoard<Piece | null>(InitialBoard);
 
   log.forEach((coordinate, index) => {
     const [y, x] = getNumberFromCoordinate(coordinate);
