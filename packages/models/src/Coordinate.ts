@@ -1,6 +1,11 @@
 export type Column= 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I';
 export type Row = '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9';
-type Coordinate = `${Column}${Row}`
+
+export type Coordinate = `${Column}${Row}`
+
+export const Columns: Column[] = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'];
+export const Rows: Row[] = ['9', '8', '7', '6', '5', '4', '3', '2', '1'];
+
 
 export function isValidCoordinate(input: unknown): input is Coordinate {
   if (typeof input !== 'string') { return false }
@@ -13,5 +18,3 @@ export function isValidCoordinate(input: unknown): input is Coordinate {
 
   return true;
 }
-
-export default Coordinate;

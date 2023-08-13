@@ -1,0 +1,15 @@
+{
+  "name": "utils",
+  "version": "0.0.0",
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "scripts": {
+    "lint": "eslint \"**/*.ts*\"",
+    "test": ""
+  },
+  "devDependencies": {
+    "tsconfig": "*",
+    "typescript": "^4.5.2",
+    "model": "*"
+  }
+}

@@ -1,26 +1,18 @@
-import { Board, BoardWithoutHouse } from "../models/Board";
-import Coordinate, { Row, Column, isValidCoordinate } from "../models/Coordinate";
-import { Piece, EntityAlias, House, isHouse } from "../models/Entity";
+import {
+  Board,
+  BoardWithoutHouse,
+  Column,
+  Columns,
+  Coordinate,
+  House,
+  InitialBoard,
+  Piece,
+  Row,
+  Rows,
+  isHouse,
+  isValidCoordinate,
+} from "models";
 
-const {
-  _,
-  N,
-} = EntityAlias
-
-export const InitialBoard = [
-  [_, _, _, _, _, _, _, _, _],
-  [_, _, _, _, _, _, _, _, _],
-  [_, _, _, _, _, _, _, _, _],
-  [_, _, _, _, _, _, _, _, _],
-  [_, _, _, _, N, _, _, _, _],
-  [_, _, _, _, _, _, _, _, _],
-  [_, _, _, _, _, _, _, _, _],
-  [_, _, _, _, _, _, _, _, _],
-  [_, _, _, _, _, _, _, _, _],
-]
-
-const Columns: Column[] = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'];
-const Rows: Row[] = ['9', '8', '7', '6', '5', '4', '3', '2', '1'];
 
 function getNumberFromCoordinate(coordinate: Coordinate): [number, number] {
   const [column, row] = coordinate.split('') as [Column, Row];
@@ -33,6 +25,14 @@ function getNumberFromCoordinate(coordinate: Coordinate): [number, number] {
 
 export function getCoordinateFromNumber(y: number, x: number): Coordinate {
   return `${Columns[x]}${Rows[y]}` as Coordinate;
+}
+
+export function copyBoard<E>(board: Board<E>): Board<E> {
+  return board.map(row => [...row]);
+}
+
+export function generateBoard<I>(item: I): Board<I> {
+  return InitialBoard.map(row => row.map(() => item));
 }
 
 type Meeted = {
@@ -81,17 +81,7 @@ export function searchBoardFrom(
     throw new Error('Invalid coordinate');
   }
 
-  const visited: boolean[][] = [
-    [false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false],
-  ];
+  const visited = generateBoard(false)
 
   if (board[y][x] === Piece.Black) { return [Piece.Black, visited] }
   if (board[y][x] === Piece.White) { return [Piece.White, visited] }
@@ -165,14 +155,6 @@ export function searchBoardFrom(
   if (meeted[Piece.Black]) { return [House.Black, visited] }
 
   return [null, visited]
-}
-
-export function copyBoard<E>(board: Board<E>): Board<E> {
-  return board.map(row => [...row]);
-}
-
-export function generateBoard<I>(item: I): Board<I> {
-  return InitialBoard.map(row => row.map(() => item));
 }
 
 export function buildHouseFromBoard(board: BoardWithoutHouse): Board {

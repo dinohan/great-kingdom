@@ -1,4 +1,4 @@
-import { Board } from "../models/Board"
+import { Board } from "models"
 import Space from "./Space"
 import styles from './Grid.module.scss'
 

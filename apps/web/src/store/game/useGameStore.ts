@@ -1,5 +1,5 @@
+import { Coordinate } from "models";
 import { create } from "zustand";
-import Coordinate from "../../models/Coordinate";
 
 export type State = {
   log: Coordinate[];

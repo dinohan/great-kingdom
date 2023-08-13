@@ -1,8 +1,7 @@
 import { describe, it, expect} from 'vitest'
 
 import * as utils from './gameUtils'
-import { EntityAlias, Piece } from '../models/Entity'
-import { BoardWithoutHouse } from '../models/Board'
+import { EntityAlias, Piece, BoardWithoutHouse } from 'models'
 
 const {
   _,

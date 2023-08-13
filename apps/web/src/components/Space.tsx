@@ -1,10 +1,9 @@
-import { Piece, House, isPiece } from "../models/Entity"
 import classNames from 'classnames'
-import styles from './Space.module.scss'
-import { Turn } from "../models/Turn"
+import { House, Piece, Turn, isPiece } from 'models'
+import { getCoordinateFromNumber } from 'utils'
 import { useGameStore } from "../store/game/useGameStore"
-import { getCoordinateFromNumber } from "../utils/gameUtils"
 import selectors from "../store/selectors"
+import styles from './Space.module.scss'
 
 function Space({
   x,
