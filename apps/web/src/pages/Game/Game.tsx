@@ -1,6 +1,6 @@
-import Grid from '../../components/Grid'
-import { useGameStore } from '../../store/game/useGameStore'
-import selectors from '../../store/selectors'
+import Grid from '@/components/Grid'
+import { useGameStore } from '@/store/game/useGameStore'
+import selectors from '@/store/selectors'
 import styles from './Game.module.scss'
 
 function Game() {

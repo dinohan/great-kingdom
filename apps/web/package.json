@@ -11,12 +11,12 @@
   },
   "dependencies": {
     "classnames": "^2.3.2",
+    "models": "*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.15.0",
-    "zustand": "^4.4.1",
-    "models": "*",
-    "utils": "*"
+    "utils": "*",
+    "zustand": "^4.4.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
@@ -29,6 +29,7 @@
     "eslint-plugin-react-refresh": "^0.4.3",
     "sass": "^1.65.1",
     "typescript": "^5.0.2",
-    "vite": "^4.4.5"
+    "vite": "^4.4.5",
+    "vite-tsconfig-paths": "^4.2.0"
   }
 }
