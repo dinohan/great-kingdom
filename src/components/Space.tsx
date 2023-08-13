@@ -4,8 +4,7 @@ import styles from './Space.module.scss'
 import { Turn } from "../models/Turn"
 import { useGameStore } from "../store/game/useGameStore"
 import { getCoordinateFromNumber } from "../utils/gameUtils"
-
-const currentTurn: Turn = Turn.BLACK
+import selectors from "../store/selectors"
 
 function Space({
   x,
@@ -17,6 +16,7 @@ function Space({
   entity: Piece | House | null,
 }) {
   const addLog = useGameStore(state => state.addLog)
+  const turn = useGameStore(selectors.gameStoreSelectors.getTurn)
 
   const disabled = entity !== null
 
@@ -54,8 +54,8 @@ function Space({
           styles.piece,
           styles.hoverPiece,
           {
-            [styles.white]: currentTurn === Turn.WHITE,
-            [styles.black]: currentTurn === Turn.BLACK,
+            [styles.white]: turn === Turn.WHITE,
+            [styles.black]: turn === Turn.BLACK,
           }
         )}
       />
