@@ -2,14 +2,30 @@ import { Piece, House, isPiece } from "../models/Entity"
 import classNames from 'classnames'
 import styles from './Space.module.scss'
 import { Turn } from "../models/Turn"
+import { useGameStore } from "../store/gameStore/useGameStore"
+import { getCoordinateFromNumber } from "../utils/gameUtils"
 
 const currentTurn: Turn = Turn.BLACK
 
 function Space({
+  x,
+  y,
   entity,
 }:{
+  x: number,
+  y: number,
   entity: Piece | House | null,
 }) {
+  const addLog = useGameStore(state => state.addLog)
+
+  const disabled = entity !== null
+
+  const handleClick = () => {
+    if (disabled) { return }
+    const coordinate = getCoordinateFromNumber(y, x)
+    addLog(coordinate)
+  }
+
   const PieceComponent = isPiece(entity) && (
     <div className={styles.pieceWrapper}>
       <div
@@ -30,8 +46,6 @@ function Space({
       <div className={styles.empty} />
     </div>
   )
-
-  const disabled = entity !== null
 
   const HoverPiece = !disabled && (
     <div className={styles.pieceWrapper}>
@@ -58,6 +72,7 @@ function Space({
           [styles.neutral]: entity === Piece.Neutral,
         },
       )}
+      onClick={handleClick}
       disabled={disabled}
     >
       { HoverPiece }

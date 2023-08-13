@@ -31,6 +31,10 @@ function getNumberFromCoordinate(coordinate: Coordinate): [number, number] {
   ];
 }
 
+export function getCoordinateFromNumber(y: number, x: number): Coordinate {
+  return `${Columns[x]}${Rows[y]}` as Coordinate;
+}
+
 type Meeted = {
   boardTop: boolean,
   boardBottom: boolean,

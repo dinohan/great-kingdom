@@ -13,7 +13,12 @@ function Grid({
       {
         board.map((row, i) => (
           row.map((entity, j) => (
-            <Space key={`${i}-${j}`} entity={entity} />
+            <Space
+              key={`${i}-${j}`}
+              x={j}
+              y={i}
+              entity={entity}
+            />
           ))
         ))
       }
