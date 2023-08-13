@@ -1,8 +1,10 @@
 import classNames from 'classnames'
 import { House, Piece, Turn, isPiece } from 'models'
 import { getCoordinateFromNumber } from 'utils'
+
 import { useGameStore } from '@/store/game/useGameStore'
 import selectors from '@/store/selectors'
+
 import styles from './Space.module.scss'
 
 function Space({

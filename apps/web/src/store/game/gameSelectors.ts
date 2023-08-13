@@ -1,5 +1,6 @@
 import { Turn } from 'models'
 import { build, getBoardFromLog } from 'utils'
+
 import { State } from './useGameStore'
 
 export const getBoard = (state: State) => {

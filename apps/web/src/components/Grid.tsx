@@ -1,6 +1,7 @@
 import { Board } from 'models'
-import Space from './Space'
+
 import styles from './Grid.module.scss'
+import Space from './Space'
 
 function Grid({ board }: { board: Board }) {
   return (
