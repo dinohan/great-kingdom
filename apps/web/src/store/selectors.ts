@@ -1,7 +1,7 @@
-import * as gameStoreSelectors from './game/gameSelectors';
+import * as gameStoreSelectors from './game/gameSelectors'
 
 const selectors = {
-  gameStoreSelectors
+  gameStoreSelectors,
 }
 
 export default selectors

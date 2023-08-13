@@ -1,17 +1,12 @@
-import { Board } from "models"
-import Space from "./Space"
+import { Board } from 'models'
+import Space from './Space'
 import styles from './Grid.module.scss'
 
-function Grid({
-  board,
-}: {
-  board: Board
-}) {
+function Grid({ board }: { board: Board }) {
   return (
-  <div className={styles.wrapper}>
-    <div className={styles.grid}>
-      {
-        board.map((row, i) => (
+    <div className={styles.wrapper}>
+      <div className={styles.grid}>
+        {board.map((row, i) =>
           row.map((entity, j) => (
             <Space
               key={`${i}-${j}`}
@@ -20,10 +15,9 @@ function Grid({
               entity={entity}
             />
           ))
-        ))
-      }
+        )}
+      </div>
     </div>
-  </div>
   )
 }
 

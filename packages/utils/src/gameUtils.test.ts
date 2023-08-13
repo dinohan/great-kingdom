@@ -1,76 +1,76 @@
-import { describe, it, expect} from 'vitest'
+import { describe, it, expect } from 'vitest'
 
 import * as utils from './gameUtils'
 import { EntityAlias, Piece, BoardWithoutHouse } from 'models'
 
-const {
-  _,
-  B,
-  W,
-  b,
-  w,
-  N,
-} = EntityAlias
+const { _, B, W, b, w, N } = EntityAlias
 
 const O = true
 const x = false
 
 describe('utils test', () => {
   it('meetMoreThenFourSide', () => {
-    expect(utils.meetMoreThenFourSide({
-      boardTop: false,
-      boardBottom: false,
-      boardLeft: false,
-      boardRight: false,
-      neutralTop: false,
-      neutralBottom: false,
-      neutralLeft: false,
-      neutralRight: false,
-      [Piece.White]: false,
-      [Piece.Black]: false,
-    })).toBe(false)
+    expect(
+      utils.meetMoreThenFourSide({
+        boardTop: false,
+        boardBottom: false,
+        boardLeft: false,
+        boardRight: false,
+        neutralTop: false,
+        neutralBottom: false,
+        neutralLeft: false,
+        neutralRight: false,
+        [Piece.White]: false,
+        [Piece.Black]: false,
+      })
+    ).toBe(false)
 
-    expect(utils.meetMoreThenFourSide({
-      boardTop: true,
-      boardBottom: false,
-      boardLeft: true,
-      boardRight: true,
-      neutralTop: true,
-      neutralBottom: false,
-      neutralLeft: false,
-      neutralRight: false,
-      [Piece.White]: false,
-      [Piece.Black]: false,
-    })).toBe(true)
+    expect(
+      utils.meetMoreThenFourSide({
+        boardTop: true,
+        boardBottom: false,
+        boardLeft: true,
+        boardRight: true,
+        neutralTop: true,
+        neutralBottom: false,
+        neutralLeft: false,
+        neutralRight: false,
+        [Piece.White]: false,
+        [Piece.Black]: false,
+      })
+    ).toBe(true)
   })
-
 
   describe('searchBoardFrom', () => {
     it('영역을 잘 구분하는가', () => {
-      expect(utils.searchBoardFrom(0, 0, [
-        [_, _, _, _, _, _, _, _, _],
-        [_, _, _, _, _, _, _, _, _],
-        [_, _, _, _, _, _, _, _, _],
-        [_, _, _, _, _, _, _, _, _],
-        [_, _, _, _, _, _, _, _, _],
-        [_, _, _, _, _, _, _, _, _],
-        [_, _, _, _, _, _, _, _, _],
-        [_, _, _, _, _, _, _, _, _],
-        [_, _, _, _, _, _, _, _, _],
-      ])[0]).toBe(_)
-  
-      expect(utils.searchBoardFrom(0, 0, [
-        [_, W, _, _, _, _, _, _, _],
-        [W, _, _, _, _, _, _, _, _],
-        [_, _, _, _, _, _, _, _, _],
-        [_, _, _, _, _, _, _, _, _],
-        [_, _, _, _, _, _, _, _, _],
-        [_, _, _, _, _, _, _, _, _],
-        [_, _, _, _, _, _, _, _, _],
-        [_, _, _, _, _, _, _, _, _],
-        [_, _, _, _, _, _, _, _, _],
-      ])[0]).toBe(w)
-  
+      expect(
+        utils.searchBoardFrom(0, 0, [
+          [_, _, _, _, _, _, _, _, _],
+          [_, _, _, _, _, _, _, _, _],
+          [_, _, _, _, _, _, _, _, _],
+          [_, _, _, _, _, _, _, _, _],
+          [_, _, _, _, _, _, _, _, _],
+          [_, _, _, _, _, _, _, _, _],
+          [_, _, _, _, _, _, _, _, _],
+          [_, _, _, _, _, _, _, _, _],
+          [_, _, _, _, _, _, _, _, _],
+        ])[0]
+      ).toBe(_)
+
+      expect(
+        utils.searchBoardFrom(0, 0, [
+          [_, W, _, _, _, _, _, _, _],
+          [W, _, _, _, _, _, _, _, _],
+          [_, _, _, _, _, _, _, _, _],
+          [_, _, _, _, _, _, _, _, _],
+          [_, _, _, _, _, _, _, _, _],
+          [_, _, _, _, _, _, _, _, _],
+          [_, _, _, _, _, _, _, _, _],
+          [_, _, _, _, _, _, _, _, _],
+          [_, _, _, _, _, _, _, _, _],
+        ])[0]
+      ).toBe(w)
+
       const board2: BoardWithoutHouse = [
         [_, W, _, _, B, _, B, _, _],
         [W, W, _, _, _, B, _, _, _],
@@ -82,14 +82,14 @@ describe('utils test', () => {
         [_, _, W, _, _, _, W, _, _],
         [_, _, W, _, _, _, W, _, _],
       ]
-  
+
       expect(utils.searchBoardFrom(0, 0, board2)[0]).toBe(w)
       expect(utils.searchBoardFrom(3, 0, board2)[0]).toBe(w)
       expect(utils.searchBoardFrom(3, 1, board2)[0]).toBe(w)
-  
+
       expect(utils.searchBoardFrom(0, 5, board2)[0]).toBe(b)
       expect(utils.searchBoardFrom(4, 5, board2)[0]).toBe(b)
-  
+
       expect(utils.searchBoardFrom(3, 2, board2)[0]).toBe(W)
       expect(utils.searchBoardFrom(3, 3, board2)[0]).toBe(_)
       expect(utils.searchBoardFrom(8, 8, board2)[0]).toBe(_)
@@ -213,11 +213,7 @@ describe('utils test', () => {
 
   describe('getBoardFromLog', () => {
     it('로그에서 보드를 만드는가', () => {
-      expect(utils.getBoardFromLog([
-        'B3',
-        'C2',
-        'B7',
-      ])).toEqual([
+      expect(utils.getBoardFromLog(['B3', 'C2', 'B7'])).toEqual([
         [_, _, _, _, _, _, _, _, _],
         [_, _, _, _, _, _, _, _, _],
         [_, B, _, _, _, _, _, _, _],

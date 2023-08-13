@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "@turbo/gen": "^1.10.12",
+    "prettier": "^2.5.1",
     "turbo": "^1.10.12"
   }
 }
