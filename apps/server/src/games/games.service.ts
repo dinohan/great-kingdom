@@ -7,6 +7,13 @@ import { Game, GameKey } from './games.entity';
 import { CreateGameDto } from './dto/create-game.dto';
 import { InjectModel, Model } from 'nestjs-dynamoose';
 import { v4 as uuidv4 } from 'uuid';
+import {
+  build,
+  getBoardFromLog,
+  getNumberFromCoordinate,
+  isValidLog,
+} from 'utils';
+import { isHouse, isPiece, isValidCoordinate } from 'models';
 
 @Injectable()
 export class GamesService {
@@ -69,10 +76,31 @@ export class GamesService {
     return updatedGame;
   }
 
-  async addLog(gameId: string, log: string) {
+  async addLog(gameId: string, coordinate: string) {
+    if (!isValidCoordinate(coordinate)) {
+      throw new UnprocessableEntityException('Invalid Coordinate');
+    }
+
     const game = await this.getGame(gameId);
 
-    game.log.push(log);
+    const prevLog = game.log;
+
+    if (!isValidLog(prevLog)) {
+      throw new UnprocessableEntityException('Invalid log');
+    }
+
+    const board = build(getBoardFromLog(prevLog));
+    const [y, x] = getNumberFromCoordinate(coordinate);
+    const target = board[y][x];
+
+    if (isPiece(target)) {
+      throw new UnprocessableEntityException('You cannot land on a piece');
+    }
+    if (isHouse(target)) {
+      throw new UnprocessableEntityException('You cannot land in a house');
+    }
+
+    game.log.push(coordinate);
 
     const updatedGame = await this.gameModel.update(
       { id: gameId },

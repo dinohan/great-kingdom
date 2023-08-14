@@ -1,6 +1,7 @@
 import { IsString } from 'class-validator';
+import { Coordinate } from 'models';
 
 export class AddLogDTO {
   @IsString()
-  readonly log: string;
+  readonly coordinate: Coordinate;
 }

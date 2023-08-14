@@ -20,11 +20,11 @@ export class GamesController {
   }
 
   @Post(':id/land')
-  async addLog(
+  async land(
     @Param('id') id: string,
-    @Body() { log }: AddLogDTO,
+    @Body() { coordinate }: AddLogDTO,
   ): Promise<Game> {
-    return this.gamesService.addLog(id, log);
+    return this.gamesService.addLog(id, coordinate);
   }
 
   @Post(':id/join')
