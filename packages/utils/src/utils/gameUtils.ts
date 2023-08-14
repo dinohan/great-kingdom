@@ -13,7 +13,9 @@ import {
   isValidCoordinate,
 } from 'models'
 
-function getNumberFromCoordinate(coordinate: Coordinate): [number, number] {
+export function getNumberFromCoordinate(
+  coordinate: Coordinate
+): [number, number] {
   const [column, row] = coordinate.split('') as [Column, Row]
 
   return [Rows.indexOf(row), Columns.indexOf(column)]
