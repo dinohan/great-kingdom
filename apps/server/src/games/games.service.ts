@@ -3,14 +3,20 @@ import {
   NotFoundException,
   UnprocessableEntityException,
 } from '@nestjs/common';
-import { Game } from './games.entity';
+import { Game, GameKey } from './games.entity';
 import { CreateGameDto } from './dto/create-game.dto';
+import { InjectModel, Model } from 'nestjs-dynamoose';
 
 @Injectable()
 export class GamesService {
   private games: Map<number, Game> = new Map();
 
   private id = 0;
+
+  constructor(
+    @InjectModel('Game')
+    private gameModel: Model<Game, GameKey>,
+  ) {}
 
   getAllGames() {
     return Array.from(this.games.values());
@@ -26,13 +32,13 @@ export class GamesService {
 
   createGame(game: CreateGameDto) {
     const newGame: Game = {
-      id: this.id++,
+      id: `${this.id++}`,
       log: [],
       players: {},
       ...game,
     };
 
-    this.games.set(newGame.id, newGame);
+    this.games.set(+newGame.id, newGame);
 
     return newGame;
   }

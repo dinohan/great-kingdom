@@ -1,5 +1,8 @@
-export interface Game {
-  id: number;
+export interface GameKey {
+  id: string;
+}
+
+export interface Game extends GameKey {
   log: string[];
   players: {
     black?: string;
