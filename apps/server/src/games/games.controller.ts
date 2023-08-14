@@ -10,27 +10,33 @@ export class GamesController {
   constructor(private readonly gamesService: GamesService) {}
 
   @Get()
-  getAll(): Game[] {
+  async getAll(): Promise<Game[]> {
     return this.gamesService.getAllGames();
   }
 
   @Get(':id')
-  getOne(@Param('id') id: number): Game {
-    return this.gamesService.getGame(id);
+  async getOne(@Param('id') id: string): Promise<Game> {
+    return await this.gamesService.getGame(id);
   }
 
   @Post(':id/land')
-  addLog(@Param('id') id: number, @Body() { log }: AddLogDTO): Game {
+  async addLog(
+    @Param('id') id: string,
+    @Body() { log }: AddLogDTO,
+  ): Promise<Game> {
     return this.gamesService.addLog(id, log);
   }
 
   @Post(':id/join')
-  addPlayer(@Param('id') id: number, @Body() { playerId }: AddPlayerDTO): Game {
-    return this.gamesService.addPlayer(id, playerId);
+  async addPlayer(
+    @Param('id') id: string,
+    @Body() { playerId }: AddPlayerDTO,
+  ): Promise<Game> {
+    return await this.gamesService.addPlayer(id, playerId);
   }
 
   @Post()
-  create(@Body() game: CreateGameDto): Game {
-    return this.gamesService.createGame(game);
+  async create(@Body() game: CreateGameDto): Promise<Game> {
+    return await this.gamesService.createGame(game);
   }
 }

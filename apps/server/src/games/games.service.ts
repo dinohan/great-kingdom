@@ -6,45 +6,44 @@ import {
 import { Game, GameKey } from './games.entity';
 import { CreateGameDto } from './dto/create-game.dto';
 import { InjectModel, Model } from 'nestjs-dynamoose';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class GamesService {
-  private games: Map<number, Game> = new Map();
-
-  private id = 0;
-
   constructor(
     @InjectModel('Game')
     private gameModel: Model<Game, GameKey>,
   ) {}
 
   getAllGames() {
-    return Array.from(this.games.values());
+    return this.gameModel.scan().exec();
   }
 
-  getGame(id: number) {
-    const game = this.games.get(id);
+  async getGame(id: string) {
+    const game = await this.gameModel.get({ id });
+
     if (!game) {
       throw new NotFoundException(`Game not found with id: ${id}`);
     }
+
     return game;
   }
 
-  createGame(game: CreateGameDto) {
+  async createGame(game: CreateGameDto) {
     const newGame: Game = {
-      id: `${this.id++}`,
+      id: uuidv4(),
       log: [],
       players: {},
       ...game,
     };
 
-    this.games.set(+newGame.id, newGame);
+    const created = await this.gameModel.create(newGame);
 
-    return newGame;
+    return created;
   }
 
-  addPlayer(gameId: number, playerId: string) {
-    const game = this.getGame(gameId);
+  async addPlayer(gameId: string, playerId: string) {
+    const game = await this.getGame(gameId);
 
     const players = game.players;
 
@@ -62,16 +61,24 @@ export class GamesService {
       players.white = playerId;
     }
 
-    return game;
+    const updatedGame = await this.gameModel.update(
+      { id: gameId },
+      { players },
+    );
+
+    return updatedGame;
   }
 
-  addLog(gameId: number, log: string) {
-    const game = this.getGame(gameId);
-
-    // TODO: validate log
+  async addLog(gameId: string, log: string) {
+    const game = await this.getGame(gameId);
 
     game.log.push(log);
 
-    return game;
+    const updatedGame = await this.gameModel.update(
+      { id: gameId },
+      { log: game.log },
+    );
+
+    return updatedGame;
   }
 }
