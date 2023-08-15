@@ -3,14 +3,14 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 
-import App from './App.tsx'
 import Game from './pages/Game/Game.tsx'
+import Home from './pages/Home/Home.tsx'
 import './index.css'
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App />,
+    element: <Home />,
   },
   {
     path: '/game',
