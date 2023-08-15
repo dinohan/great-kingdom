@@ -3,9 +3,9 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 
-import Game from './pages/Game/Game.tsx'
-import New from './pages/Game/New/New.tsx'
-import Home from './pages/Home/Home.tsx'
+import Games from './pages/Games'
+import GamesNew from './pages/Games/New'
+import Home from './pages/Home'
 import './index.css'
 
 const router = createBrowserRouter([
@@ -15,11 +15,11 @@ const router = createBrowserRouter([
   },
   {
     path: '/games/new',
-    element: <New />,
+    element: <GamesNew />,
   },
   {
     path: '/game',
-    element: <Game />,
+    element: <Games />,
   },
 ])
 
