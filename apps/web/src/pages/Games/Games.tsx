@@ -2,9 +2,9 @@ import Grid from '@/components/Grid'
 import { useGameStore } from '@/store/game/useGameStore'
 import selectors from '@/store/selectors'
 
-import styles from './Game.module.scss'
+import styles from './Games.module.scss'
 
-function Game() {
+function Games() {
   return (
     <div className={styles.wrapper}>
       <Grid board={useGameStore(selectors.gameStoreSelectors.getBoard)} />
@@ -12,4 +12,4 @@ function Game() {
   )
 }
 
-export default Game
+export default Games
