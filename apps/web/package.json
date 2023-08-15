@@ -1,5 +1,5 @@
 {
-  "name": "great-kingdom",
+  "name": "web",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -11,11 +11,11 @@
   },
   "dependencies": {
     "classnames": "^2.3.2",
-    "models": "*",
+    "models": "workspace:^",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.15.0",
-    "utils": "*",
+    "utils": "workspace:^",
     "zustand": "^4.4.1"
   },
   "devDependencies": {

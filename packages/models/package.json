@@ -1,12 +1,23 @@
 {
   "name": "models",
-  "version": "0.0.0",
-  "main": "./src/index.ts",
-  "types": "./src/index.ts",
+  "version": "0.0.1",
+  "source": "src/index.ts",
+  "exports": {
+    "types": "./dist/index.d.ts",
+    "require": "./dist/models.js",
+    "default": "./dist/models.modern.mjs"
+  },
+  "main": "./dist/models.js",
+  "module": "./dist/models.modern.mjs",
+  "unpkg": "./dist/models.umd.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
-    "lint": "eslint \"**/*.ts*\""
+    "lint": "eslint \"**/*.ts*\"",
+    "build": "microbundle",
+    "dev": "microbundle watch"
   },
   "devDependencies": {
+    "microbundle": "^0.15.1",
     "tsconfig": "*",
     "typescript": "^4.5.2"
   }

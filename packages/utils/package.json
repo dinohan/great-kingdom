@@ -1,17 +1,26 @@
 {
   "name": "utils",
-  "version": "0.0.0",
-  "main": "./src/index.ts",
-  "types": "./src/index.ts",
+  "version": "0.0.1",
+  "source": "src/index.ts",
+  "exports": {
+    "types": "./dist/index.d.ts",
+    "require": "./dist/utils.js",
+    "default": "./dist/utils.modern.mjs"
+  },
+  "main": "./dist/utils.js",
+  "module": "./dist/utils.modern.mjs",
+  "unpkg": "./dist/utils.umd.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
+    "build": "microbundle",
+    "dev": "microbundle watch",
     "lint": "eslint \"**/*.ts*\"",
     "test": "vitest run",
     "test:watch": "vitest"
   },
   "devDependencies": {
-    "model": "*",
+    "microbundle": "^0.15.1",
     "tsconfig": "*",
-    "typescript": "^4.5.2",
-    "vitest": "^0.34.1"
+    "typescript": "^4.5.2"
   }
 }

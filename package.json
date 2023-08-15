@@ -1,23 +1,17 @@
 {
   "name": "great-kingdom",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "workspaces": [
     "apps/*",
     "packages/*"
   ],
   "scripts": {
-    "build": "turbo run build",
-    "dev": "turbo run dev",
-    "lint": "turbo run lint",
-    "test": "turbo run test",
-    "test:watch": "turbo run test:watch",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
-    "@turbo/gen": "^1.10.12",
-    "prettier": "^2.5.1",
-    "turbo": "^1.10.12"
-  }
+    "prettier": "^2.5.1"
+  },
+  "packageManager": "yarn@3.6.1"
 }
