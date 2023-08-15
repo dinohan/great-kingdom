@@ -1,5 +1,11 @@
+import { CreateGameForm } from '@/features/new-game'
+
 function GamesNew() {
-  return <div>GamesNew</div>
+  return (
+    <div>
+      <CreateGameForm />
+    </div>
+  )
 }
 
 export default GamesNew
