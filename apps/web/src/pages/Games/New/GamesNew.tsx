@@ -1,4 +1,4 @@
-import { CreateGameForm } from '@/features/new-game'
+import { CreateGameForm } from '@/features/games-new'
 
 function GamesNew() {
   return (
