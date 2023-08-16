@@ -4,5 +4,6 @@ export interface UserKey {
 
 export interface User extends UserKey {
   email: string;
-  nickname?: string;
+  nickname: string;
+  password: string;
 }

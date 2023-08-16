@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { DynamooseModule } from 'nestjs-dynamoose';
 import { UserSchema } from './users.schema';
-import { UsersController } from './users.controller';
 
 @Module({
   imports: [
@@ -17,6 +16,7 @@ import { UsersController } from './users.controller';
     ]),
   ],
   providers: [UsersService],
-  controllers: [UsersController],
+  controllers: [],
+  exports: [UsersService],
 })
 export class UsersModule {}

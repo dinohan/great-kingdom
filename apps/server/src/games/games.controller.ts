@@ -1,9 +1,10 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { GamesService } from './games.service';
 import { Game } from './games.entity';
 import { CreateGameDTO } from './dto/create-game.dto';
 import { LandDTO } from './dto/land.dto';
 import { JoinDTO } from './dto/add-player.dto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('games')
 export class GamesController {
@@ -27,6 +28,7 @@ export class GamesController {
     return this.gamesService.addLog(id, coordinate);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post(':id/join')
   async addPlayer(
     @Param('id') id: string,

@@ -7,4 +7,7 @@ export class SignUpDTO implements Interface {
 
   @IsString()
   readonly nickname: string;
+
+  @IsString()
+  readonly password: string;
 }

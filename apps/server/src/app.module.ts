@@ -4,6 +4,7 @@ import { DynamooseModule } from 'nestjs-dynamoose';
 import { GamesModule } from './games/games.module';
 import { DynamooseConfigService } from './dynamoose-config.service';
 import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { UsersModule } from './users/users.module';
       isGlobal: true,
     }),
     DynamooseModule.forRootAsync({ useClass: DynamooseConfigService }),
+    AuthModule,
   ],
   controllers: [],
   providers: [],

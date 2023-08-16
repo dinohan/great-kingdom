@@ -14,4 +14,7 @@ export const UserSchema = new Schema({
   nickname: {
     type: String,
   },
+  password: {
+    type: String,
+  },
 });

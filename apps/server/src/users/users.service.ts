@@ -14,44 +14,33 @@ export class UsersService {
     private userModel: Model<User, UserKey>,
   ) {}
 
-  async create({
-    id,
-    email,
-    nickname,
-  }: {
-    id: string;
-    email: string;
-    nickname: string;
-  }) {
-    if (!isValidEmail(email)) {
+  async create(user: User) {
+    if (!isValidEmail(user.email)) {
       throw new BadRequestException('Invalid email');
     }
 
-    const user = await this.findOneById(id);
+    const userFound = await this.findOne(user.id);
 
-    if (user) {
+    if (userFound) {
       throw new ConflictException('User already exists');
     }
 
-    const users = await this.findOneByEmail(email);
+    const users = await this.findOneByEmail(user.email);
 
     if (users.length > 0) {
       throw new ConflictException('User already exists');
     }
 
-    return this.userModel.create({
-      id,
-      email,
-      nickname,
-    });
+    const { password, ...createdUser } = await this.userModel.create(user);
+
+    return createdUser;
   }
 
   async findOneByEmail(email: string) {
     return this.userModel.query('email').eq(email).exec();
   }
 
-  async findOneById(id: string) {
-    console.log('findOneById', id);
+  async findOne(id: string) {
     return this.userModel.get({ id });
   }
 
