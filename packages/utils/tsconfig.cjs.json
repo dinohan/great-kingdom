@@ -26,5 +26,6 @@
     "**/*.test.ts",
     "**/*.test.tsx",
     "**/*.stories.tsx"
-  ]
+  ],
+  "references": [{ "path": "../models/tsconfig.cjs.json" }]
 }
