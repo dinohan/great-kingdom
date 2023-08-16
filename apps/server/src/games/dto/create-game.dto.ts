@@ -1,6 +1,7 @@
-import { IsString, IsNumber, IsOptional } from 'class-validator';
+import { IsString } from 'class-validator';
+import { CreateGameDTO as Interface } from 'dtos';
 
-export class CreateGameDto {
+export class CreateGameDTO implements Interface {
   @IsString()
   readonly title: string;
 }

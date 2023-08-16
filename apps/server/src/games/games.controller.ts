@@ -1,9 +1,9 @@
-import { Body, Controller, Get, Param, Post, Redirect } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { GamesService } from './games.service';
 import { Game } from './games.entity';
-import { CreateGameDto } from './dto/create-game.dto';
-import { AddLogDTO } from './dto/add-log.dto';
-import { AddPlayerDTO } from './dto/add-player.dto';
+import { CreateGameDTO } from './dto/create-game.dto';
+import { LandDTO } from './dto/land.dto';
+import { JoinDTO } from './dto/add-player.dto';
 
 @Controller('games')
 export class GamesController {
@@ -22,7 +22,7 @@ export class GamesController {
   @Post(':id/land')
   async land(
     @Param('id') id: string,
-    @Body() { coordinate }: AddLogDTO,
+    @Body() { coordinate }: LandDTO,
   ): Promise<Game> {
     return this.gamesService.addLog(id, coordinate);
   }
@@ -30,13 +30,13 @@ export class GamesController {
   @Post(':id/join')
   async addPlayer(
     @Param('id') id: string,
-    @Body() { playerId }: AddPlayerDTO,
+    @Body() { playerId }: JoinDTO,
   ): Promise<Game> {
     return await this.gamesService.addPlayer(id, playerId);
   }
 
   @Post()
-  async create(@Body() game: CreateGameDto): Promise<Game> {
+  async create(@Body() game: CreateGameDTO): Promise<Game> {
     return await this.gamesService.createGame(game);
   }
 }

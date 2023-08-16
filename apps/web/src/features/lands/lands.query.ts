@@ -1,3 +1,4 @@
+import { LandDTO } from 'dtos'
 import { Coordinate } from 'models'
 
 import client from '@/apis/Client'
@@ -9,7 +10,7 @@ interface RequestPostLands {
 }
 
 export function requestPostLands({ gameId, coordinate }: RequestPostLands) {
-  return client.post<Game>(`/games/${gameId}/land`, {
+  return client.post<Game, LandDTO>(`/games/${gameId}/land`, {
     coordinate,
   })
 }

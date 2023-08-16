@@ -1,0 +1,17 @@
+{
+  "name": "dtos",
+  "types": "./src/index.ts",
+  "main": "./src/index.ts",
+  "exports": {
+    "types": "./src/index.ts"
+  },
+  "files": [
+    "./src"
+  ],
+  "private": true,
+  "version": "0.0.1",
+  "scripts": {},
+  "dependencies": {
+    "models": "*"
+  }
+}

@@ -10,12 +10,17 @@ class Client {
     return new Fetcher<T, R, D>({ ...config, url: path, method: 'GET' })
   }
 
-  post<T = unknown, R extends AxiosResponse<T> = AxiosResponse<T>, D = unknown>(
+  post<T = unknown, D = unknown>(
     path: string,
     data: D,
     config?: AxiosRequestConfig
   ) {
-    return new Fetcher<T, R, D>({ ...config, url: path, method: 'POST', data })
+    return new Fetcher<T, AxiosResponse<T>, D>({
+      ...config,
+      url: path,
+      method: 'POST',
+      data,
+    })
   }
 
   put<T = unknown, R extends AxiosResponse<T> = AxiosResponse<T>, D = unknown>(

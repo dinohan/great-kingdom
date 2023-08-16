@@ -4,7 +4,7 @@ import {
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { Game, GameKey } from './games.entity';
-import { CreateGameDto } from './dto/create-game.dto';
+import { CreateGameDTO } from './dto/create-game.dto';
 import { InjectModel, Model } from 'nestjs-dynamoose';
 import { v4 as uuidv4 } from 'uuid';
 import {
@@ -36,7 +36,7 @@ export class GamesService {
     return game;
   }
 
-  async createGame(game: CreateGameDto) {
+  async createGame(game: CreateGameDTO) {
     const newGame: Game = {
       id: uuidv4(),
       log: [],
