@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query'
-import { useParams } from 'react-router-dom'
 
 import { useGameQuery } from './games.query'
+import useGameId from './useGameId'
 
 function useGame() {
-  const { id } = useParams()
+  const id = useGameId()
 
   if (!id) {
     throw new Error('Missing game id')
