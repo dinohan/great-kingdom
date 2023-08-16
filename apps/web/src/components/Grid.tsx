@@ -1,7 +1,8 @@
 import { Board } from 'models'
 
+import { LandSpace } from '@/features/lands'
+
 import styles from './Grid.module.scss'
-import Space from './Space'
 
 function Grid({ board }: { board: Board }) {
   return (
@@ -9,7 +10,7 @@ function Grid({ board }: { board: Board }) {
       <div className={styles.grid}>
         {board.map((row, i) =>
           row.map((entity, j) => (
-            <Space
+            <LandSpace
               key={`${i}-${j}`}
               x={j}
               y={i}

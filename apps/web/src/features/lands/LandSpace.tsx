@@ -2,12 +2,12 @@ import classNames from 'classnames'
 import { House, Piece, Turn, isPiece } from 'models'
 import { getCoordinateFromNumber } from 'utils'
 
-import { useGameStore } from '@/store/game/useGameStore'
-import selectors from '@/store/selectors'
+import { useGame } from '@/features/games'
 
-import styles from './Space.module.scss'
+import styles from './LandSpace.module.scss'
+import useLand from './useLand'
 
-function Space({
+function LandSpace({
   x,
   y,
   entity,
@@ -16,17 +16,19 @@ function Space({
   y: number
   entity: Piece | House | null
 }) {
-  const addLog = useGameStore((state) => state.addLog)
-  const turn = useGameStore(selectors.gameStoreSelectors.getTurn)
-
   const disabled = entity !== null
+
+  const { data: game } = useGame()
+
+  const mutate = useLand(game?.id)
+  const turn = (game?.log.length ?? 0) % 2 === 0 ? Turn.BLACK : Turn.WHITE
 
   const handleClick = () => {
     if (disabled) {
       return
     }
     const coordinate = getCoordinateFromNumber(y, x)
-    addLog(coordinate)
+    mutate(coordinate)
   }
 
   const PieceComponent = isPiece(entity) && (
@@ -75,4 +77,4 @@ function Space({
   )
 }
 
-export default Space
+export default LandSpace
