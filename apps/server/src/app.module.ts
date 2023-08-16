@@ -1,11 +1,13 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { DynamooseModule } from 'nestjs-dynamoose';
 import { GamesModule } from './games/games.module';
 import { DynamooseConfigService } from './dynamoose-config.service';
-import { ConfigModule } from '@nestjs/config';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
+    UsersModule,
     GamesModule,
     ConfigModule.forRoot({
       isGlobal: true,
