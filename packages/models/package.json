@@ -3,7 +3,19 @@
   "version": "0.0.0",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
+  "exports": {
+    "import": "./dist/esm/index.js",
+    "require": "./dist/cjs/index.js"
+  },
+  "files": [
+    "dist/cjs/**/*",
+    "dist/esm/**/*",
+    "dist/types/**/*"
+  ],
   "scripts": {
+    "build": "yarn build:esm && yarn build:cjs",
+    "build:esm": "yarn tsc --build --verbose ./tsconfig.esm.json",
+    "build:cjs": "yarn tsc --build --verbose ./tsconfig.cjs.json",
     "lint": "eslint \"**/*.ts*\""
   },
   "devDependencies": {

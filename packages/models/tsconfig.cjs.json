@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "target": "es2016",
+    "jsx": "react",
+    "moduleResolution": "node",
+    "declaration": true,
+    "sourceMap": false,
+    "esModuleInterop": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "lib": ["dom", "esnext"],
+    "types": ["node", "jest"],
+    "composite": true,
+    "outDir": "dist/cjs",
+    "declarationDir": "dist/types",
+    "baseUrl": "./",
+    "rootDir": "src",
+    "module": "CommonJS"
+  },
+  "include": ["./src"],
+  "exclude": [
+    "**/__mock__/**",
+    "**/__test__/**",
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.stories.tsx"
+  ]
+}
