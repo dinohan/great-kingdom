@@ -44,7 +44,9 @@ export class UsersService {
     return this.userModel.query('email').eq(email).exec();
   }
 
-  async findOne(id: string): Promise<Omit<User, 'password'> | null>;
+  async findOne(
+    id: string,
+  ): Promise<Omit<User, 'password' | 'currentHashedRefreshToken'> | null>;
   async findOne(id: string, withPassword: true): Promise<User | null>;
   async findOne(
     id: string,
@@ -69,7 +71,7 @@ export class UsersService {
   }
 
   async getUserIfRefreshTokenMatches(refreshToken: string, id: string) {
-    const user = await this.findOne(id);
+    const user = await this.findOne(id, true);
 
     if (!user?.currentHashedRefreshToken) {
       return null;
@@ -84,7 +86,7 @@ export class UsersService {
       return null;
     }
 
-    return user;
+    return omitCredentials(user);
   }
 
   async removeRefreshToken(id: string) {

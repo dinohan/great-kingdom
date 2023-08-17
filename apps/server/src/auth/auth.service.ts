@@ -4,12 +4,14 @@ import { JwtService } from '@nestjs/jwt';
 import { Res } from 'dtos';
 import { User } from 'models';
 import { UsersService } from 'src/users/users.service';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private jwtService: JwtService,
+    private readonly configService: ConfigService,
   ) {}
 
   async validateUser({
@@ -39,7 +41,8 @@ export class AuthService {
   }: {
     email: string;
   }): Promise<Res['/auth/sign-in']> {
-    const payload = { id };
+    const token = this.getAccessToken(id);
+
     const user = await this.usersService.findOne(id);
 
     if (!user) {
@@ -47,8 +50,47 @@ export class AuthService {
     }
 
     return {
-      access_token: this.jwtService.sign(payload),
+      access_token: token,
       user,
+    };
+  }
+
+  getAccessToken(id: string) {
+    const payload = { id };
+    const token = this.jwtService.sign(payload);
+
+    return token;
+  }
+
+  getCookieWithJwtRefreshToken(id: string) {
+    const payload = { id };
+
+    const token = this.jwtService.sign(payload, {
+      secret: this.configService.get('JWT_REFRESH_TOKEN_SECRET'),
+      expiresIn: Number(
+        this.configService.get('JWT_REFRESH_TOKEN_EXPIRATION_TIME'),
+      ),
+    });
+
+    return {
+      refreshToken: token,
+      domain: 'localhost',
+      path: '/',
+      httpOnly: true,
+      maxAge: Number(
+        this.configService.get('JWT_REFRESH_TOKEN_EXPIRATION_TIME'),
+      ),
+    };
+  }
+
+  getCookiesForLogOut() {
+    return {
+      refreshOption: {
+        domain: 'localhost',
+        path: '/',
+        httpOnly: true,
+        maxAge: 0,
+      },
     };
   }
 }
