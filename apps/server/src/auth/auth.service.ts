@@ -1,3 +1,4 @@
+import { compare } from 'bcrypt';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Res } from 'dtos';
@@ -24,7 +25,7 @@ export class AuthService {
       throw new NotFoundException('User not found');
     }
 
-    if (user.password === password) {
+    if (await compare(password, user.password)) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password, ...result } = user;
       return result;

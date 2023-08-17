@@ -6,6 +6,7 @@ import {
 import { InjectModel, Model } from 'nestjs-dynamoose';
 import { isValidEmail } from './users.utils';
 import { User, UserKey } from 'models';
+import { hash } from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -31,7 +32,10 @@ export class UsersService {
       throw new ConflictException('User already exists');
     }
 
-    const { password, ...createdUser } = await this.userModel.create(user);
+    const { password, ...createdUser } = await this.userModel.create({
+      ...user,
+      password: await hash(user.password, 10),
+    });
 
     return createdUser;
   }
