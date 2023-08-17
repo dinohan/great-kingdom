@@ -4,15 +4,15 @@ import { Coordinate } from 'models'
 import { requestPostLands } from './lands.query'
 
 function useLand(gameId?: string) {
-  if (!gameId) {
-    throw new Error('Missing game id')
-  }
-
   const queryClient = useQueryClient()
-  const { mutate } = useMutation({
-    mutationFn: (coordinate: Coordinate) =>
-      requestPostLands({ gameId, coordinate }).run(),
 
+  const { mutate } = useMutation({
+    mutationFn: (coordinate: Coordinate) => {
+      if (!gameId) {
+        return Promise.reject(new Error('Missing game id'))
+      }
+      return requestPostLands({ gameId, coordinate }).run()
+    },
     onSuccess: (data) => {
       queryClient.setQueryData(['games', gameId], data)
     },
