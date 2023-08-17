@@ -16,12 +16,13 @@ import { AuthController } from './auth.controller';
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
         secret: configService.get('JWT_SECRET'),
-        signOptions: { expiresIn: '1d' },
+        signOptions: {
+          expiresIn: configService.get('ACCESS_TOKEN_EXPIRE_TIME'),
+        },
       }),
       inject: [ConfigService],
     }),
   ],
-
   providers: [AuthService, LocalStrategy, JwtStrategy],
   controllers: [AuthController],
 })
