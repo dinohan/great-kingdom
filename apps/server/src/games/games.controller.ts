@@ -9,12 +9,12 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { GamesService } from './games.service';
-import { Game } from './games.entity';
 import { CreateGameDTO } from './dto/create-game.dto';
 import { LandDTO } from './dto/land.dto';
 import { JoinDTO } from './dto/add-player.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { JWTUser } from 'src/auth/jwt.entity';
+import { Game } from 'models';
 
 interface Request {
   user: JWTUser;
@@ -53,8 +53,12 @@ export class GamesController {
     return await this.gamesService.addPlayer(id, playerId);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post()
-  async create(@Body() game: CreateGameDTO): Promise<Game> {
-    return await this.gamesService.createGame(game);
+  async create(
+    @Body() createGameDTO: CreateGameDTO,
+    @Req() req: Request,
+  ): Promise<Game> {
+    return await this.gamesService.createGame(createGameDTO, req.user.id);
   }
 }

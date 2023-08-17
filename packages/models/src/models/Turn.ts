@@ -1,4 +1,4 @@
 export enum Turn {
-  WHITE = 'WHITE',
-  BLACK = 'BLACK',
+  WHITE = 'white',
+  BLACK = 'black',
 }

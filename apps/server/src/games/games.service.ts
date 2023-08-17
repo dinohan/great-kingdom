@@ -1,9 +1,9 @@
 import {
+  ForbiddenException,
   Injectable,
   NotFoundException,
   UnprocessableEntityException,
 } from '@nestjs/common';
-import { Game, GameKey } from './games.entity';
 import { CreateGameDTO } from './dto/create-game.dto';
 import { InjectModel, Model } from 'nestjs-dynamoose';
 import { v4 as uuidv4 } from 'uuid';
@@ -13,7 +13,14 @@ import {
   getNumberFromCoordinate,
   isValidLog,
 } from 'utils';
-import { isHouse, isPiece, isValidCoordinate } from 'models';
+import {
+  Game,
+  GameKey,
+  Turn,
+  isHouse,
+  isPiece,
+  isValidCoordinate,
+} from 'models';
 
 @Injectable()
 export class GamesService {
@@ -36,12 +43,17 @@ export class GamesService {
     return game;
   }
 
-  async createGame(game: CreateGameDTO) {
+  async createGame(createGameDTO: CreateGameDTO, userId: string) {
+    const turn =
+      createGameDTO.turn ?? (Math.random() > 0.5 ? Turn.BLACK : Turn.WHITE);
+
     const newGame: Game = {
       id: uuidv4(),
       log: [],
-      players: {},
-      ...game,
+      players: {
+        [turn]: userId,
+      },
+      title: createGameDTO.title,
     };
 
     const created = await this.gameModel.create(newGame);
@@ -77,6 +89,8 @@ export class GamesService {
   }
 
   async addLog(gameId: string, userId: string, coordinate: string) {
+    console.log('addLog', gameId, userId, coordinate);
+
     const game = await this.getGame(gameId);
 
     const players = game.players;
