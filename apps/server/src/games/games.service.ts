@@ -89,8 +89,6 @@ export class GamesService {
   }
 
   async addLog(gameId: string, userId: string, coordinate: string) {
-    console.log('addLog', gameId, userId, coordinate);
-
     const game = await this.getGame(gameId);
 
     const players = game.players;

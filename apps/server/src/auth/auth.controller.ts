@@ -55,7 +55,6 @@ export class AuthController {
   @UseGuards(JwtRefreshGuard)
   @Get('/refresh')
   refresh(@Req() req: RequestWithUser) {
-    console.log(req.user);
     const userId = req.user.id;
     const accessToken = this.authService.getAccessToken(userId);
 
