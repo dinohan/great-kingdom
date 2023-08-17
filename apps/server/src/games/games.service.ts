@@ -76,26 +76,45 @@ export class GamesService {
     return updatedGame;
   }
 
-  async addLog(gameId: string, coordinate: string) {
+  async addLog(gameId: string, userId: string, coordinate: string) {
+    const game = await this.getGame(gameId);
+
+    const players = game.players;
+
+    if (players.black !== userId && players.white !== userId) {
+      throw new ForbiddenException('You are not in this game');
+    }
+
+    if (!players.black || !players.white) {
+      throw new UnprocessableEntityException('Game is not started');
+    }
+
+    const currentLog = game.log;
+    const turn = currentLog.length % 2 === 0 ? Turn.BLACK : Turn.WHITE;
+
+    if (
+      (turn === Turn.BLACK && players.black !== userId) ||
+      (turn === Turn.WHITE && players.white !== userId)
+    ) {
+      throw new UnprocessableEntityException('Not your turn');
+    }
+
     if (!isValidCoordinate(coordinate)) {
       throw new UnprocessableEntityException('Invalid Coordinate');
     }
 
-    const game = await this.getGame(gameId);
-
-    const prevLog = game.log;
-
-    if (!isValidLog(prevLog)) {
-      throw new UnprocessableEntityException('Invalid log');
+    if (!isValidLog(currentLog)) {
+      throw new UnprocessableEntityException('Invalid game log');
     }
 
-    const board = build(getBoardFromLog(prevLog));
+    const board = build(getBoardFromLog(currentLog));
     const [y, x] = getNumberFromCoordinate(coordinate);
     const target = board[y][x];
 
     if (isPiece(target)) {
       throw new UnprocessableEntityException('You cannot land on a piece');
     }
+
     if (isHouse(target)) {
       throw new UnprocessableEntityException('You cannot land in a house');
     }
