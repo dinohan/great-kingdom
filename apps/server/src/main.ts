@@ -12,7 +12,10 @@ async function bootstrap() {
       transform: true,
     }),
   );
-  app.enableCors();
+  app.enableCors({
+    origin: ['http://localhost:5173'],
+    credentials: true,
+  });
   app.use(cookieParser());
   await app.listen(3000);
 }
