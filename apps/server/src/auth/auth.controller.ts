@@ -3,9 +3,9 @@ import { UsersService } from 'src/users/users.service';
 import { SignUpDTO } from './dto/sign-up.dto';
 import { AuthService } from './auth.service';
 import { SignInDTO } from './dto/sign-in.dto';
-import { LocalAuthGuard } from './local-auth.guard';
+import { LocalAuthGuard } from './guards/local-auth.guard';
 import { RequestWithUser } from './jwt.entity';
-import { JwtAuthGuard } from './jwt-auth.guard';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
 @Controller('auth')
 export class AuthController {
