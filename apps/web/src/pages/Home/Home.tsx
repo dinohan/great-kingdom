@@ -4,6 +4,7 @@ function Home() {
   return (
     <div>
       <Link to="/games/new">New Game</Link>
+      <Link to="/login">Login</Link>
     </div>
   )
 }

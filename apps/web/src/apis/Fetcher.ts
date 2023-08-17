@@ -1,12 +1,14 @@
 import { AxiosRequestConfig, AxiosResponse } from 'axios'
 
+import authService from '@/services/AuthService'
+
 import axios from './axios'
 
 class Fetcher<T, R extends AxiosResponse<T>, D> {
   constructor(private config: AxiosRequestConfig<D>) {}
 
   withToken(): this {
-    const token = '' // TODO: inject AuthService
+    const token = authService.accessToken
 
     if (token) {
       this.config.headers = {
