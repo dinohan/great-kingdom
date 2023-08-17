@@ -1,7 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { CreateGameDTO } from 'dtos'
 import { useNavigate } from 'react-router-dom'
 
-import { PostGameDTO, requestPostGames } from './games-new.query'
+import { requestPostGames } from './games-new.query'
 
 function useCreateGame() {
   const navigate = useNavigate()
@@ -9,7 +10,7 @@ function useCreateGame() {
   const queryClient = useQueryClient()
 
   const { mutate } = useMutation({
-    mutationFn: (data: PostGameDTO) => requestPostGames(data).run(),
+    mutationFn: (data: CreateGameDTO) => requestPostGames(data).run(),
     onSuccess: (data) => {
       queryClient.setQueryData(['games', data.id], data)
       navigate(`/games/${data.id}`)
