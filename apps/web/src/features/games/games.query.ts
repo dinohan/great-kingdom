@@ -1,6 +1,6 @@
-import client from '@/apis/Client'
+import { Game } from 'models'
 
-import { Game } from './games.entity'
+import client from '@/apis/Client'
 
 function requestGetGames() {
   return client.get<Game[]>('/games').withToken()
