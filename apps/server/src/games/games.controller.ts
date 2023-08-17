@@ -2,7 +2,6 @@ import {
   Body,
   Controller,
   Req,
-  Request,
   Get,
   Param,
   Post,
@@ -13,12 +12,8 @@ import { CreateGameDTO } from './dto/create-game.dto';
 import { LandDTO } from './dto/land.dto';
 import { JoinDTO } from './dto/add-player.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { JWTUser } from 'src/auth/jwt.entity';
 import { Game } from 'models';
-
-interface Request {
-  user: JWTUser;
-}
+import { RequestWithUser } from 'src/auth/jwt.entity';
 
 @Controller('games')
 export class GamesController {
@@ -39,7 +34,7 @@ export class GamesController {
   async land(
     @Param('id') gameId: string,
     @Body() { coordinate }: LandDTO,
-    @Req() req: Request,
+    @Req() req: RequestWithUser,
   ): Promise<Game> {
     return this.gamesService.addLog(gameId, req.user.id, coordinate);
   }
@@ -57,7 +52,7 @@ export class GamesController {
   @Post()
   async create(
     @Body() createGameDTO: CreateGameDTO,
-    @Req() req: Request,
+    @Req() req: RequestWithUser,
   ): Promise<Game> {
     return await this.gamesService.createGame(createGameDTO, req.user.id);
   }
