@@ -7,7 +7,10 @@ class AuthService {
     this.accessToken = localStorage.getItem(ACCESS_TOKEN_KEY)
   }
 
-  saveAccessToken(accessToken: string) {
+  saveAccessToken(accessToken?: string) {
+    if (!accessToken) {
+      return
+    }
     this.accessToken = accessToken
     localStorage.setItem(ACCESS_TOKEN_KEY, accessToken)
   }

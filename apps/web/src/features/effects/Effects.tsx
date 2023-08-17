@@ -1,5 +1,8 @@
+import useRefresh from './useRefresh'
+
 function Effects() {
-  // TODO: refresh toekn, etc
+  useRefresh()
+
   return <></>
 }
 
