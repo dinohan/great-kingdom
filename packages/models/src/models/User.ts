@@ -6,4 +6,5 @@ export interface User extends UserKey {
   email: string
   nickname: string
   password: string
+  currentHashedRefreshToken?: string | null
 }

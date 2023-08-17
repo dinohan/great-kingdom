@@ -4,9 +4,9 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { InjectModel, Model } from 'nestjs-dynamoose';
-import { isValidEmail } from './users.utils';
+import { isValidEmail, omitCredentials } from './users.utils';
 import { User, UserKey } from 'models';
-import { hash } from 'bcrypt';
+import { compare, hash } from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -32,12 +32,12 @@ export class UsersService {
       throw new ConflictException('User already exists');
     }
 
-    const { password, ...createdUser } = await this.userModel.create({
+    const createdUser = await this.userModel.create({
       ...user,
       password: await hash(user.password, 10),
     });
 
-    return createdUser;
+    return omitCredentials(createdUser);
   }
 
   async findOneByEmail(email: string) {
@@ -60,12 +60,36 @@ export class UsersService {
       return user;
     }
 
-    const { password, ...userWithoutPassword } = user;
-
-    return userWithoutPassword;
+    return omitCredentials(user);
   }
 
-  // async findByNickname(nickname: string) {
-  //   return this.userModel.query('nickname').eq(nickname).exec();
-  // }
+  async setCurrentRefreshToken(refreshToken: string, id: string) {
+    const currentHashedRefreshToken = await hash(refreshToken, 10);
+    await this.userModel.update({ id }, { currentHashedRefreshToken });
+  }
+
+  async getUserIfRefreshTokenMatches(refreshToken: string, id: string) {
+    const user = await this.findOne(id);
+
+    if (!user?.currentHashedRefreshToken) {
+      return null;
+    }
+
+    const isRefreshTokenMatching = await compare(
+      refreshToken,
+      user.currentHashedRefreshToken,
+    );
+
+    if (!isRefreshTokenMatching) {
+      return null;
+    }
+
+    return user;
+  }
+
+  async removeRefreshToken(id: string) {
+    return omitCredentials(
+      await this.userModel.update({ id }, { currentHashedRefreshToken: null }),
+    );
+  }
 }
