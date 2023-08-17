@@ -10,10 +10,10 @@ function requestGetGame(id: string) {
   return client.get<Game>(`/games/${id}`).withToken()
 }
 
-export function useGamesQuery() {
+export function makeGamesQuery() {
   return ['games', () => requestGetGames().run()] as const
 }
 
-export function useGameQuery(id: string) {
+export function makeGameQuery(id: string) {
   return [['games', id], () => requestGetGame(id).run()] as const
 }

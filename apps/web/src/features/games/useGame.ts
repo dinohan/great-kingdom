@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 
-import { useGameQuery } from './games.query'
+import { makeGameQuery } from './games.query'
 import useGameId from './useGameId'
 
 function useGame() {
@@ -10,7 +10,7 @@ function useGame() {
     throw new Error('Missing game id')
   }
 
-  return useQuery(...useGameQuery(id))
+  return useQuery(...makeGameQuery(id))
 }
 
 export default useGame
