@@ -1,9 +1,7 @@
-import { SignInDTO } from 'dtos'
+import { Res, SignInDTO } from 'dtos'
 
 import client from '@/apis/Client'
 
 export function requestSignIn(signInDTO: SignInDTO) {
-  return client.post<{
-    access_token: string
-  }>('/auth/sign-in', signInDTO)
+  return client.post<Res['/auth/sign-in']>('/auth/sign-in', signInDTO)
 }

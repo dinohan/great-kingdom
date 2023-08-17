@@ -4,8 +4,8 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { InjectModel, Model } from 'nestjs-dynamoose';
-import { User, UserKey } from './users.entity';
 import { isValidEmail } from './users.utils';
+import { User, UserKey } from 'models';
 
 @Injectable()
 export class UsersService {
@@ -40,8 +40,25 @@ export class UsersService {
     return this.userModel.query('email').eq(email).exec();
   }
 
-  async findOne(id: string) {
-    return this.userModel.get({ id });
+  async findOne(id: string): Promise<Omit<User, 'password'> | null>;
+  async findOne(id: string, withPassword: true): Promise<User | null>;
+  async findOne(
+    id: string,
+    withPassword?: boolean,
+  ): Promise<User | Omit<User, 'password'> | null> {
+    const user = await this.userModel.get({ id });
+
+    if (!user) {
+      return null;
+    }
+
+    if (withPassword) {
+      return user;
+    }
+
+    const { password, ...userWithoutPassword } = user;
+
+    return userWithoutPassword;
   }
 
   // async findByNickname(nickname: string) {

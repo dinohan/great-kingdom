@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { User } from 'src/users/users.entity';
+import { Res } from 'dtos';
+import { User } from 'models';
 import { UsersService } from 'src/users/users.service';
 
 @Injectable()
@@ -17,10 +18,10 @@ export class AuthService {
     id: string;
     password: string;
   }): Promise<Omit<User, 'password'> | null> {
-    const user = await this.usersService.findOne(id);
+    const user = await this.usersService.findOne(id, true);
 
     if (!user) {
-      return null;
+      throw new NotFoundException('User not found');
     }
 
     if (user.password === password) {
@@ -32,10 +33,21 @@ export class AuthService {
     return null;
   }
 
-  async signIn({ email }: { email: string }) {
-    const payload = { id: email };
+  async signIn({
+    email: id,
+  }: {
+    email: string;
+  }): Promise<Res['/auth/sign-in']> {
+    const payload = { id };
+    const user = await this.usersService.findOne(id);
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
     return {
       access_token: this.jwtService.sign(payload),
+      user,
     };
   }
 }

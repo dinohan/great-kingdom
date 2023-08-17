@@ -1,9 +1,9 @@
 export interface UserKey {
-  id: string;
+  id: string
 }
 
 export interface User extends UserKey {
-  email: string;
-  nickname: string;
-  password: string;
+  email: string
+  nickname: string
+  password: string
 }
