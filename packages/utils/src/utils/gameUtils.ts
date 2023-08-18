@@ -10,7 +10,9 @@ import {
   Row,
   Rows,
   isHouse,
-  isValidCoordinate,
+  isCoordinate,
+  Land,
+  isLand,
 } from 'models'
 
 export function getNumberFromCoordinate(
@@ -233,11 +235,15 @@ export function build(board: BoardWithoutHouse): Board {
   return buildHouseFromBoard(board)
 }
 
-export function getBoardFromLog(log: Coordinate[]): BoardWithoutHouse {
+export function getBoardFromLog(log: Land[]): BoardWithoutHouse {
   const board = copyBoard<Piece | null>(InitialBoard)
 
-  log.forEach((coordinate, index) => {
-    const [y, x] = getNumberFromCoordinate(coordinate)
+  log.forEach((land, index) => {
+    if (!isCoordinate(land)) {
+      return
+    }
+
+    const [y, x] = getNumberFromCoordinate(land)
 
     board[y][x] = index % 2 === 0 ? Piece.Black : Piece.White
   })
@@ -245,28 +251,14 @@ export function getBoardFromLog(log: Coordinate[]): BoardWithoutHouse {
   return board
 }
 
-export function availableSteps(map: Board): Coordinate[] {
-  const steps: Coordinate[] = []
-
-  map.forEach((row, y) => {
-    row.forEach((cell, x) => {
-      if (cell === null) {
-        steps.push(`${Rows[y]}${Columns[x]}` as Coordinate)
-      }
-    })
-  })
-
-  return steps
-}
-
-export function isValidLog(log: unknown): log is Coordinate[] {
+export function isValidLog(log: unknown): log is Land[] {
   if (!Array.isArray(log)) {
     return false
   }
   if (log.length > 81) {
     return false
   }
-  if (!log.every(isValidCoordinate)) {
+  if (!log.every(isLand)) {
     return false
   }
 

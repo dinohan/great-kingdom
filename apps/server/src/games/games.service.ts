@@ -13,7 +13,7 @@ import {
   getNumberFromCoordinate,
   isValidLog,
 } from 'utils';
-import { Turn, isHouse, isPiece, isValidCoordinate } from 'models';
+import { Turn, isHouse, isPiece, isCoordinate, isLand } from 'models';
 import { Game, GameKey } from 'dtos';
 
 @Injectable()
@@ -82,7 +82,7 @@ export class GamesService {
     return updatedGame;
   }
 
-  async addLog(gameId: string, userId: string, coordinate: string) {
+  async addLog(gameId: string, userId: string, land: string) {
     const game = await this.getGame(gameId);
 
     const players = game.players;
@@ -105,7 +105,7 @@ export class GamesService {
       throw new UnprocessableEntityException('Not your turn');
     }
 
-    if (!isValidCoordinate(coordinate)) {
+    if (!isLand(land)) {
       throw new UnprocessableEntityException('Invalid Coordinate');
     }
 
@@ -114,18 +114,21 @@ export class GamesService {
     }
 
     const board = build(getBoardFromLog(currentLog));
-    const [y, x] = getNumberFromCoordinate(coordinate);
-    const target = board[y][x];
 
-    if (isPiece(target)) {
-      throw new UnprocessableEntityException('You cannot land on a piece');
+    if (isCoordinate(land)) {
+      const [y, x] = getNumberFromCoordinate(land);
+      const target = board[y][x];
+
+      if (isPiece(target)) {
+        throw new UnprocessableEntityException('You cannot land on a piece');
+      }
+
+      if (isHouse(target)) {
+        throw new UnprocessableEntityException('You cannot land in a house');
+      }
     }
 
-    if (isHouse(target)) {
-      throw new UnprocessableEntityException('You cannot land in a house');
-    }
-
-    game.log.push(coordinate);
+    game.log.push(land);
 
     const updatedGame = await this.gameModel.update(
       { id: gameId },
