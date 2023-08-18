@@ -1,4 +1,4 @@
-import { Coordinate, Turn } from 'models'
+import { Land, Turn } from 'models'
 
 export interface CreateGameDTO {
   title: string
@@ -11,7 +11,7 @@ export interface CreateGameDTO {
 }
 
 export interface LandDTO {
-  readonly coordinate: Coordinate
+  readonly land: Land
 }
 
 export interface JoinDTO {

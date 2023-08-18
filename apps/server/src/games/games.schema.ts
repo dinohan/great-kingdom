@@ -27,7 +27,7 @@ export const GameSchema = new Schema({
     },
   },
   endedAt: {
-    type: Number,
+    type: String,
   },
   winner: {
     type: String,

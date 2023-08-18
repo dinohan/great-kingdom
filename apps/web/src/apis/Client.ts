@@ -12,7 +12,7 @@ class Client {
 
   post<T = unknown, D = unknown>(
     path: string,
-    data: D,
+    data?: D,
     config?: AxiosRequestConfig
   ) {
     return new Fetcher<T, AxiosResponse<T>, D>({

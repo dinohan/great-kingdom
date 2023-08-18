@@ -10,6 +10,12 @@ function requestGetGame(id: string) {
   return client.get<ResponseDTO['GET/games/:id']>(`/games/${id}`).withToken()
 }
 
+export function reqeustPostJoinGame(id: string) {
+  return client
+    .post<ResponseDTO['POST/games/:id/join']>(`/games/${id}/join`)
+    .withToken()
+}
+
 export function makeGamesQuery() {
   return ['games', () => requestGetGames().run()] as const
 }

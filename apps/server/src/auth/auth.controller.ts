@@ -14,7 +14,7 @@ import { SignUpDTO } from './dto/sign-up.dto';
 import { AuthService } from './auth.service';
 import { SignInDTO } from './dto/sign-in.dto';
 import { LocalAuthGuard } from './guards/local-auth.guard';
-import { RequestWithUser } from './jwt.entity';
+import { RequestWithJWT } from './jwt.entity';
 import { JwtRefreshGuard } from './guards/jwt-refresh.guard';
 import { ResponseDTO } from 'dtos';
 
@@ -59,7 +59,7 @@ export class AuthController {
   @UseGuards(JwtRefreshGuard)
   @Get('/refresh')
   async refresh(
-    @Req() req: RequestWithUser,
+    @Req() req: RequestWithJWT,
   ): Promise<ResponseDTO['GET/auth/refresh']> {
     const userId = req.user.id;
     const accessToken = this.authService.getAccessToken(userId);

@@ -104,6 +104,10 @@ export class GamesService {
       throw new UnprocessableEntityException('Game is not started');
     }
 
+    if (game.winner) {
+      throw new UnprocessableEntityException('Game is ended');
+    }
+
     const currentLog = game.log;
     const turn = currentLog.length % 2 === 0 ? Turn.BLACK : Turn.WHITE;
 

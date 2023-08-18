@@ -12,7 +12,7 @@ import { CreateGameDTO } from './dto/create-game.dto';
 import { LandDTO } from './dto/land.dto';
 import { JoinDTO } from './dto/add-player.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { RequestWithUser } from 'src/auth/jwt.entity';
+import { RequestWithJWT } from 'src/auth/jwt.entity';
 import { ResponseDTO } from 'dtos';
 
 @Controller('games')
@@ -33,26 +33,26 @@ export class GamesController {
   @Post(':id/land')
   async land(
     @Param('id') gameId: string,
-    @Body() { coordinate }: LandDTO,
-    @Req() req: RequestWithUser,
+    @Body() { land }: LandDTO,
+    @Req() req: RequestWithJWT,
   ): Promise<ResponseDTO['POST/games/:id/land']> {
-    return this.gamesService.addLog(gameId, req.user.id, coordinate);
+    return this.gamesService.addLog(gameId, req.user.id, land);
   }
 
   @UseGuards(JwtAuthGuard)
   @Post(':id/join')
   async addPlayer(
+    @Req() req: RequestWithJWT,
     @Param('id') id: string,
-    @Body() { playerId }: JoinDTO,
   ): Promise<ResponseDTO['POST/games/:id/join']> {
-    return await this.gamesService.addPlayer(id, playerId);
+    return await this.gamesService.addPlayer(id, req.user.id);
   }
 
   @UseGuards(JwtAuthGuard)
   @Post()
   async create(
     @Body() createGameDTO: CreateGameDTO,
-    @Req() req: RequestWithUser,
+    @Req() req: RequestWithJWT,
   ): Promise<ResponseDTO['POST/games']> {
     return await this.gamesService.createGame(createGameDTO, req.user.id);
   }
