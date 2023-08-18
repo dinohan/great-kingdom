@@ -1,13 +1,13 @@
-import { Game } from 'models'
+import { ResponseDTO } from 'dtos'
 
 import client from '@/apis/Client'
 
 function requestGetGames() {
-  return client.get<Game[]>('/games').withToken()
+  return client.get<ResponseDTO['GET/games']>('/games').withToken()
 }
 
 function requestGetGame(id: string) {
-  return client.get<Game>(`/games/${id}`).withToken()
+  return client.get<ResponseDTO['GET/games/:id']>(`/games/${id}`).withToken()
 }
 
 export function makeGamesQuery() {

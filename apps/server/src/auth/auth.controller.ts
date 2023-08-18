@@ -26,7 +26,9 @@ export class AuthController {
   ) {}
 
   @Post('/sign-up')
-  async signUp(@Body() signUpDTO: SignUpDTO) {
+  async signUp(
+    @Body() signUpDTO: SignUpDTO,
+  ): Promise<ResponseDTO['POST/auth/sign-up']> {
     const id = signUpDTO.email;
 
     return this.usersService.create({
@@ -40,7 +42,7 @@ export class AuthController {
   async signIn(
     @Body() signInDTO: SignInDTO,
     @Res({ passthrough: true }) res: Response,
-  ): Promise<ResponseDTO['/auth/sign-in']> {
+  ): Promise<ResponseDTO['POST/auth/sign-in']> {
     const { refreshToken, ...refreshOption } =
       this.authService.getCookieWithJwtRefreshToken(signInDTO.email);
 
@@ -58,7 +60,7 @@ export class AuthController {
   @Get('/refresh')
   async refresh(
     @Req() req: RequestWithUser,
-  ): Promise<ResponseDTO['/auth/refresh']> {
+  ): Promise<ResponseDTO['GET/auth/refresh']> {
     const userId = req.user.id;
     const accessToken = this.authService.getAccessToken(userId);
 

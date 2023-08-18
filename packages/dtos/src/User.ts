@@ -10,3 +10,8 @@ export interface User extends UserKey, ITimeStamp {
   password: string
   currentHashedRefreshToken?: string | null
 }
+
+export type UserWithoutCredentials = Omit<
+  User,
+  'password' | 'currentHashedRefreshToken'
+>

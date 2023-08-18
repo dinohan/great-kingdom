@@ -1,5 +1,6 @@
+import { Game } from './Game'
 import { ITimeStamp } from './TimeStamp'
-import { User } from './User'
+import { User, UserWithoutCredentials } from './User'
 
 interface AccessToeknResponse {
   access_token: string
@@ -7,6 +8,12 @@ interface AccessToeknResponse {
 }
 
 export type ResponseDTO = {
-  '/auth/sign-in': AccessToeknResponse
-  '/auth/refresh': AccessToeknResponse
+  'POST/auth/sign-up': UserWithoutCredentials
+  'POST/auth/sign-in': AccessToeknResponse
+  'GET/auth/refresh': AccessToeknResponse
+  'GET/games': Game[]
+  'GET/games/:id': Game
+  'POST/games': Game
+  'POST/games/:id/land': Game
+  'POST/games/:id/join': Game
 }

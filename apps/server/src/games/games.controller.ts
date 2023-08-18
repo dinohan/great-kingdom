@@ -13,19 +13,19 @@ import { LandDTO } from './dto/land.dto';
 import { JoinDTO } from './dto/add-player.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { RequestWithUser } from 'src/auth/jwt.entity';
-import { Game } from 'dtos';
+import { Game, ResponseDTO } from 'dtos';
 
 @Controller('games')
 export class GamesController {
   constructor(private readonly gamesService: GamesService) {}
 
   @Get()
-  async getAll(): Promise<Game[]> {
+  async getAll(): Promise<ResponseDTO['GET/games']> {
     return this.gamesService.getAllGames();
   }
 
   @Get(':id')
-  async getOne(@Param('id') id: string): Promise<Game> {
+  async getOne(@Param('id') id: string): Promise<ResponseDTO['GET/games/:id']> {
     return await this.gamesService.getGame(id);
   }
 
@@ -35,7 +35,7 @@ export class GamesController {
     @Param('id') gameId: string,
     @Body() { coordinate }: LandDTO,
     @Req() req: RequestWithUser,
-  ): Promise<Game> {
+  ): Promise<ResponseDTO['POST/games/:id/land']> {
     return this.gamesService.addLog(gameId, req.user.id, coordinate);
   }
 
@@ -44,7 +44,7 @@ export class GamesController {
   async addPlayer(
     @Param('id') id: string,
     @Body() { playerId }: JoinDTO,
-  ): Promise<Game> {
+  ): Promise<ResponseDTO['POST/games/:id/join']> {
     return await this.gamesService.addPlayer(id, playerId);
   }
 
@@ -53,7 +53,7 @@ export class GamesController {
   async create(
     @Body() createGameDTO: CreateGameDTO,
     @Req() req: RequestWithUser,
-  ): Promise<Game> {
+  ): Promise<ResponseDTO['POST/games']> {
     return await this.gamesService.createGame(createGameDTO, req.user.id);
   }
 }
