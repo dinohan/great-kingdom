@@ -13,6 +13,7 @@ import {
   isCoordinate,
   Land,
   isLand,
+  isPass,
 } from 'models'
 
 export function getNumberFromCoordinate(
@@ -249,6 +250,30 @@ export function getBoardFromLog(log: Land[]): BoardWithoutHouse {
   })
 
   return board
+}
+
+export function isGameEnded(log: Land[]): boolean {
+  if (log.length >= 81) {
+    return true
+  }
+
+  for (let i = log.length - 1; i >= 1; i--) {
+    if (isPass(log[i]) && isPass(log[i - 1])) {
+      return true
+    }
+  }
+
+  const board = build(getBoardFromLog(log))
+
+  const isEveryCellFilled = board.every((row) =>
+    row.every((cell) => cell !== null)
+  )
+
+  if (isEveryCellFilled) {
+    return true
+  }
+
+  return false
 }
 
 export function isValidLog(log: unknown): log is Land[] {
