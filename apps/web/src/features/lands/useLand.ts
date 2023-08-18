@@ -1,14 +1,11 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { Game } from 'dtos'
 import { Land } from 'models'
-
-import { useGame } from '../games'
 
 import { requestPostLands } from './lands.query'
 
 function useLand(gameId?: string) {
   const queryClient = useQueryClient()
-
-  const { data: oldGame } = useGame()
 
   const { mutate } = useMutation({
     mutationFn: (land: Land) => {
@@ -17,20 +14,35 @@ function useLand(gameId?: string) {
       }
       return requestPostLands({ gameId, land }).run()
     },
-    onMutate: (coordinate) => {
-      if (!oldGame) {
-        return
-      }
-      queryClient.setQueryData(['games', gameId], {
-        ...oldGame,
-        log: [...oldGame.log, coordinate],
-      })
+    onMutate: (land) => {
+      queryClient.setQueryData<Game>(
+        ['games', gameId],
+        (old: Game | undefined) => {
+          if (!old) {
+            return old
+          }
+
+          return {
+            ...old,
+            log: [...old.log, land],
+          }
+        }
+      )
     },
     onSuccess: (data) => {
       queryClient.setQueryData(['games', gameId], data)
     },
     onError: () => {
-      queryClient.setQueryData(['games', gameId], oldGame)
+      queryClient.setQueryData(['games', gameId], (old: Game | undefined) => {
+        if (!old) {
+          return old
+        }
+
+        return {
+          ...old,
+          log: old.log.slice(0, -1),
+        }
+      })
     },
   })
 

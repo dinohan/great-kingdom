@@ -10,7 +10,9 @@ function useGame() {
     throw new Error('Missing game id')
   }
 
-  return useQuery(...makeGameQuery(id))
+  return useQuery(...makeGameQuery(id), {
+    staleTime: 1000,
+  })
 }
 
 export default useGame

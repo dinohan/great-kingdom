@@ -16,12 +16,13 @@ function LandSpace({
   y: number
   entity: Piece | House | null
 }) {
-  const disabled = entity !== null
-
   const { data: game } = useGame()
 
-  const mutate = useLand(game?.id)
   const turn = (game?.log.length ?? 0) % 2 === 0 ? Turn.BLACK : Turn.WHITE
+
+  const disabled = entity !== null || !!game?.winner || !!game?.endedAt
+
+  const mutate = useLand(game?.id)
 
   const handleClick = () => {
     if (disabled) {
