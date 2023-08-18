@@ -13,7 +13,7 @@ import { LandDTO } from './dto/land.dto';
 import { JoinDTO } from './dto/add-player.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { RequestWithUser } from 'src/auth/jwt.entity';
-import { Game, ResponseDTO } from 'dtos';
+import { ResponseDTO } from 'dtos';
 
 @Controller('games')
 export class GamesController {

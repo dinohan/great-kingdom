@@ -19,4 +19,7 @@ export const GameSchema = new Schema({
       white: String,
     },
   },
+  endedAt: {
+    type: Number,
+  },
 });

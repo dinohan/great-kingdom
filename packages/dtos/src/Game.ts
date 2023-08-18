@@ -11,4 +11,5 @@ export interface Game extends GameKey {
     [Turn.WHITE]?: string
   }
   title: string
+  endedAt?: string
 }
