@@ -12,8 +12,8 @@ import { CreateGameDTO } from './dto/create-game.dto';
 import { LandDTO } from './dto/land.dto';
 import { JoinDTO } from './dto/add-player.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { Game } from 'models';
 import { RequestWithUser } from 'src/auth/jwt.entity';
+import { Game } from 'dtos';
 
 @Controller('games')
 export class GamesController {

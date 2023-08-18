@@ -5,8 +5,8 @@ import {
 } from '@nestjs/common';
 import { InjectModel, Model } from 'nestjs-dynamoose';
 import { isValidEmail, omitCredentials } from './users.utils';
-import { User, UserKey } from 'models';
 import { compare, hash } from 'bcrypt';
+import { User, UserKey } from 'dtos';
 
 @Injectable()
 export class UsersService {
@@ -15,7 +15,7 @@ export class UsersService {
     private userModel: Model<User, UserKey>,
   ) {}
 
-  async create(user: User) {
+  async create(user: Pick<User, 'id' | 'email' | 'password' | 'nickname'>) {
     if (!isValidEmail(user.email)) {
       throw new BadRequestException('Invalid email');
     }

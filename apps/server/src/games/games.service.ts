@@ -13,14 +13,8 @@ import {
   getNumberFromCoordinate,
   isValidLog,
 } from 'utils';
-import {
-  Game,
-  GameKey,
-  Turn,
-  isHouse,
-  isPiece,
-  isValidCoordinate,
-} from 'models';
+import { Turn, isHouse, isPiece, isValidCoordinate } from 'models';
+import { Game, GameKey } from 'dtos';
 
 @Injectable()
 export class GamesService {

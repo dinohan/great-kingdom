@@ -1,8 +1,7 @@
 import { compare } from 'bcrypt';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { Res } from 'dtos';
-import { User } from 'models';
+import { User } from 'dtos';
 import { UsersService } from 'src/users/users.service';
 import { ConfigService } from '@nestjs/config';
 
@@ -36,11 +35,7 @@ export class AuthService {
     return null;
   }
 
-  async signIn({
-    email: id,
-  }: {
-    email: string;
-  }): Promise<Res['/auth/sign-in']> {
+  async signIn({ email: id }: { email: string }) {
     const token = this.getAccessToken(id);
 
     const user = await this.usersService.findOne(id);

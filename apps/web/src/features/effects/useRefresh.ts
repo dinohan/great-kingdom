@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 
 import { useQuery } from '@tanstack/react-query'
+import { User } from 'models'
 
 import client from '@/apis/Client'
 import authService from '@/services/AuthService'
@@ -8,6 +9,7 @@ import authService from '@/services/AuthService'
 function reqeustGetRefresh() {
   return client.get<{
     access_token: string
+    user: User
   }>('/auth/refresh')
 }
 

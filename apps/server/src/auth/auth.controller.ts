@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  NotFoundException,
   Post,
   Req,
   Res,
@@ -15,6 +16,7 @@ import { SignInDTO } from './dto/sign-in.dto';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { RequestWithUser } from './jwt.entity';
 import { JwtRefreshGuard } from './guards/jwt-refresh.guard';
+import { ResponseDTO } from 'dtos';
 
 @Controller('auth')
 export class AuthController {
@@ -38,7 +40,7 @@ export class AuthController {
   async signIn(
     @Body() signInDTO: SignInDTO,
     @Res({ passthrough: true }) res: Response,
-  ) {
+  ): Promise<ResponseDTO['/auth/sign-in']> {
     const { refreshToken, ...refreshOption } =
       this.authService.getCookieWithJwtRefreshToken(signInDTO.email);
 
@@ -54,15 +56,21 @@ export class AuthController {
 
   @UseGuards(JwtRefreshGuard)
   @Get('/refresh')
-  refresh(@Req() req: RequestWithUser) {
+  async refresh(
+    @Req() req: RequestWithUser,
+  ): Promise<ResponseDTO['/auth/refresh']> {
     const userId = req.user.id;
     const accessToken = this.authService.getAccessToken(userId);
 
-    const user = this.usersService.findOne(userId);
+    const user = await this.usersService.findOne(userId);
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
 
     return {
       access_token: accessToken,
-      ...user,
+      user,
     };
   }
 }

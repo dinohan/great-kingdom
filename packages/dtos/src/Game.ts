@@ -1,4 +1,4 @@
-import { Turn } from './Turn'
+import { Turn } from 'models'
 
 export interface GameKey {
   id: string

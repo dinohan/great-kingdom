@@ -1,4 +1,4 @@
-import { User } from 'models';
+import { User } from 'dtos';
 
 export interface JWTUser {
   id: User['id'];

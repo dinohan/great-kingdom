@@ -1,3 +1,6 @@
 export * from './games'
 export * from './users'
-export * from './Response'
+export * from './ResponseDTO'
+export * from './TimeStamp'
+export * from './User'
+export * from './Game'
