@@ -8,10 +8,15 @@ import { CreateGameDTO } from './dto/create-game.dto';
 import { InjectModel, Model } from 'nestjs-dynamoose';
 import { v4 as uuidv4 } from 'uuid';
 import {
+  bothPlayerPassed,
   build,
+  cantLandMoreOnBoard,
   getBoardFromLog,
   getNumberFromCoordinate,
+  getScore,
   isValidLog,
+  winByDestroy,
+  winByScore,
 } from 'utils';
 import { Turn, isHouse, isPiece, isCoordinate, isLand } from 'models';
 import { Game, GameKey } from 'dtos';
@@ -46,6 +51,10 @@ export class GamesService {
       log: [],
       players: {
         [turn]: userId,
+      },
+      score: {
+        [Turn.BLACK]: 0,
+        [Turn.WHITE]: 0,
       },
       title: createGameDTO.title,
     };
@@ -102,7 +111,7 @@ export class GamesService {
       (turn === Turn.BLACK && players.black !== userId) ||
       (turn === Turn.WHITE && players.white !== userId)
     ) {
-      throw new UnprocessableEntityException('Not your turn');
+      throw new ForbiddenException('Not your turn');
     }
 
     if (!isLand(land)) {
@@ -130,9 +139,31 @@ export class GamesService {
 
     game.log.push(land);
 
+    const newBoard = build(getBoardFromLog(game.log));
+    const [blackScore, whiteScore] = getScore(newBoard);
+
+    let winner: Turn | undefined;
+
+    const endedWithLand =
+      bothPlayerPassed(game.log) || cantLandMoreOnBoard(newBoard);
+
+    if (endedWithLand) {
+      winner = winByScore(blackScore, whiteScore);
+    } else {
+      winner = winByDestroy(newBoard);
+    }
+
     const updatedGame = await this.gameModel.update(
       { id: gameId },
-      { log: game.log },
+      {
+        log: game.log,
+        score: {
+          [Turn.BLACK]: blackScore,
+          [Turn.WHITE]: whiteScore,
+        },
+        winner,
+        endedAt: winner ? new Date().toISOString() : undefined,
+      },
     );
 
     return updatedGame;

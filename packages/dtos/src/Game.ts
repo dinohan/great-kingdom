@@ -12,4 +12,9 @@ export interface Game extends GameKey {
   }
   title: string
   endedAt?: string
+  winner?: Turn
+  score: {
+    [Turn.BLACK]: number
+    [Turn.WHITE]: number
+  }
 }

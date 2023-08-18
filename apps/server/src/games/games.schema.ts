@@ -19,7 +19,17 @@ export const GameSchema = new Schema({
       white: String,
     },
   },
+  score: {
+    type: Object,
+    schema: {
+      black: Number,
+      white: Number,
+    },
+  },
   endedAt: {
     type: Number,
+  },
+  winner: {
+    type: String,
   },
 });

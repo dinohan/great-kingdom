@@ -321,7 +321,7 @@ describe('utils test', () => {
       ).toEqual(Turn.WHITE)
     })
 
-    it('죽은 돌이 없을 경우 null을 반환한다.', () => {
+    it('죽은 돌이 없을 경우 undefined를 반환한다.', () => {
       expect(
         utils.winByDestroy([
           [_, W, W, W, B, _, _, _, _],
@@ -334,7 +334,7 @@ describe('utils test', () => {
           [_, _, _, _, W, _, _, _, _],
           [_, _, _, _, _, _, _, _, _],
         ])
-      ).toBeNull()
+      ).toBeUndefined()
     })
   })
 

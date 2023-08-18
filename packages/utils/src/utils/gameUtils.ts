@@ -313,7 +313,7 @@ export function isDead(y: number, x: number, board: Board): boolean {
   return !bordersOnNull && !bordersOnHouse
 }
 
-export function winByDestroy(board: Board): Turn | null {
+export function winByDestroy(board: Board): Turn | undefined {
   const isBlackDead = board.some((row, y) =>
     row.some((cell, x) => cell === Piece.Black && isDead(y, x, board))
   )
@@ -330,7 +330,7 @@ export function winByDestroy(board: Board): Turn | null {
     return Turn.BLACK
   }
 
-  return null
+  return undefined
 }
 
 export function bothPlayerPassed(log: Land[]) {
