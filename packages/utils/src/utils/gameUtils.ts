@@ -15,6 +15,7 @@ import {
   isLand,
   isPass,
   isPiece,
+  Turn,
 } from 'models'
 
 export function getNumberFromCoordinate(
@@ -312,28 +313,68 @@ export function isDead(y: number, x: number, board: Board): boolean {
   return !bordersOnNull && !bordersOnHouse
 }
 
-export function isGameEnded(log: Land[]): boolean {
-  if (log.length >= 81) {
-    return true
+export function winByDestroy(board: Board): Turn | null {
+  const isBlackDead = board.some((row, y) =>
+    row.some((cell, x) => cell === Piece.Black && isDead(y, x, board))
+  )
+
+  if (isBlackDead) {
+    return Turn.WHITE
   }
 
+  const isWhiteDead = board.some((row, y) =>
+    row.some((cell, x) => cell === Piece.White && isDead(y, x, board))
+  )
+
+  if (isWhiteDead) {
+    return Turn.BLACK
+  }
+
+  return null
+}
+
+export function bothPlayerPassed(log: Land[]) {
   for (let i = log.length - 1; i >= 1; i--) {
     if (isPass(log[i]) && isPass(log[i - 1])) {
       return true
     }
   }
 
-  const board = build(getBoardFromLog(log))
+  return false
+}
 
+export function cantLandMoreOnBoard(board: Board) {
   const isEveryCellFilled = board.every((row) =>
     row.every((cell) => cell !== null)
   )
 
-  if (isEveryCellFilled) {
-    return true
-  }
+  return isEveryCellFilled
+}
 
-  return false
+export function getScore(board: Board): [number, number] {
+  const 흑집 = board.reduce(
+    (acc, row) =>
+      acc +
+      row.reduce((acc, cell) => (cell === House.Black ? acc + 1 : acc), 0),
+    0
+  )
+
+  const 백집 = board.reduce(
+    (acc, row) =>
+      acc +
+      row.reduce((acc, cell) => (cell === House.White ? acc + 1 : acc), 0),
+    0
+  )
+
+  return [흑집, 백집]
+}
+
+const 흑 = Turn.BLACK
+const 백 = Turn.WHITE
+
+const 덤 = 2.5
+export function winByScore(흑집: number, 백집: number) {
+  return 흑집 > 백집 + 덤 ? 흑 : 백
 }
 
 export function isValidLog(log: unknown): log is Land[] {

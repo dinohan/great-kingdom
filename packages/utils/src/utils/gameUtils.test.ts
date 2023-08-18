@@ -1,7 +1,8 @@
 import { describe, it, expect } from 'vitest'
 
 import * as utils from './gameUtils'
-import { EntityAlias, Piece, BoardWithoutHouse } from 'models'
+import { EntityAlias, Piece, BoardWithoutHouse, Turn } from 'models'
+import exp from 'constants'
 
 const { _, B, W, b, w, N } = EntityAlias
 
@@ -284,6 +285,94 @@ describe('utils test', () => {
           [_, _, _, _, _, _, _, _, _],
         ])
       ).toBe(true)
+    })
+  })
+
+  describe('winByDestroy', () => {
+    it('흑이 백돌을 잡았을 경우 흑이 승리한다.', () => {
+      expect(
+        utils.winByDestroy([
+          [_, B, W, W, B, _, _, _, _],
+          [_, W, B, B, _, _, _, _, _],
+          [_, _, _, _, _, _, _, _, _],
+          [_, _, _, _, _, _, _, _, _],
+          [_, _, _, _, N, _, _, _, _],
+          [_, _, _, _, _, _, _, _, _],
+          [_, _, _, _, _, _, _, _, _],
+          [_, _, _, _, _, _, _, _, _],
+          [_, _, _, _, _, _, _, _, _],
+        ])
+      ).toEqual(Turn.BLACK)
+    })
+
+    it('백이 흑돌을 잡았을 경우 백이 승리한다.', () => {
+      expect(
+        utils.winByDestroy([
+          [_, W, W, W, B, _, _, _, _],
+          [_, W, B, B, _, _, _, _, _],
+          [_, _, _, _, _, _, _, _, _],
+          [_, _, _, W, B, _, _, _, _],
+          [_, _, W, B, N, B, B, _, _],
+          [_, _, W, B, B, W, _, _, _],
+          [_, B, _, W, W, _, _, _, _],
+          [_, _, _, _, _, _, _, _, _],
+          [_, _, _, _, _, _, _, _, _],
+        ])
+      ).toEqual(Turn.WHITE)
+    })
+
+    it('죽은 돌이 없을 경우 null을 반환한다.', () => {
+      expect(
+        utils.winByDestroy([
+          [_, W, W, W, B, _, _, _, _],
+          [_, W, B, B, _, _, _, _, _],
+          [_, _, _, _, _, _, _, _, _],
+          [_, _, _, W, B, _, _, _, _],
+          [_, _, W, B, N, B, B, _, _],
+          [_, _, W, B, B, B, _, _, _],
+          [_, B, _, W, W, _, _, _, _],
+          [_, _, _, _, W, _, _, _, _],
+          [_, _, _, _, _, _, _, _, _],
+        ])
+      ).toBeNull()
+    })
+  })
+
+  describe('bothPlayerPassed', () => {
+    it('둘 다 패스했을 경우 true를 반환한다.', () => {
+      expect(utils.bothPlayerPassed(['A1', 'I7', 'H3', 'A3', 'PS', 'PS'])).toBe(
+        true
+      )
+    })
+  })
+
+  describe('getScore', () => {
+    it('각 플레이어의 점수를 반환한다.', () => {
+      expect(
+        utils.getScore([
+          [b, b, b, b, B, _, _, _, _],
+          [b, b, B, B, _, _, _, _, _],
+          [B, B, _, _, _, _, _, _, _],
+          [_, _, _, W, B, _, _, _, _],
+          [_, _, W, w, N, B, B, _, _],
+          [_, _, W, w, w, B, _, _, _],
+          [_, B, _, W, W, _, _, _, _],
+          [_, _, _, _, W, _, _, _, _],
+          [_, _, _, _, _, _, _, _, _],
+        ])
+      ).toEqual([6, 3])
+    })
+  })
+
+  describe('winByScore', () => {
+    it('흑이 3점 이상으로 크면 흑이 승리한다.', () => {
+      expect(utils.winByScore(7, 2)).toEqual(Turn.BLACK)
+      expect(utils.winByScore(14, 11)).toEqual(Turn.BLACK)
+    })
+
+    it('백 승리조건: 흑 점수 - 3보다 크다.', () => {
+      expect(utils.winByScore(11, 14)).toEqual(Turn.WHITE)
+      expect(utils.winByScore(14, 12)).toEqual(Turn.WHITE)
     })
   })
 })
