@@ -1,4 +1,4 @@
-import useRefresh from './useRefresh'
+import { useRefresh } from '@/features/auth'
 
 function Effects() {
   useRefresh()

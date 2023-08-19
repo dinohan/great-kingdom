@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 
-import { useLogin } from '@/features/login'
+import { useLogin } from '@/features/auth'
 
 function Login() {
   const emailRef = useRef<HTMLInputElement>(null)

@@ -1,8 +1,7 @@
 import { build, getBoardFromLog } from 'utils'
 
 import Grid from '@/components/Grid'
-import { useGame } from '@/features/games'
-import useJoin from '@/features/games/useJoin'
+import { useGame, useJoin } from '@/features/games'
 
 import styles from './Game.module.scss'
 
