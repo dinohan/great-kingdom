@@ -2,16 +2,20 @@ import { Coordinate } from 'models'
 import { create } from 'zustand'
 
 export type State = {
-  log: Coordinate[]
+  temporaryCoordinate: Coordinate | null
 }
 
 export type Actions = {
-  addLog: (coordinate: Coordinate) => void
+  select: (coordinate: Coordinate) => void
+  reset: () => void
 }
 
-export const useGameStore = create<State & Actions>((set, get) => ({
-  log: [],
-  addLog: (coordinate: Coordinate) => {
-    set({ log: [...get().log, coordinate] })
+export const useGameStore = create<State & Actions>((set) => ({
+  temporaryCoordinate: null,
+  select: (coordinate) => {
+    set({ temporaryCoordinate: coordinate })
+  },
+  reset: () => {
+    set({ temporaryCoordinate: null })
   },
 }))

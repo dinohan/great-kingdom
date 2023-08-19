@@ -1,13 +1,14 @@
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import classNames from 'classnames'
 import { House, Piece, Turn, isPiece } from 'models'
 import { getCoordinateFromNumber } from 'utils'
 
 import { useGame } from '@/features/games'
+import { useGameStore } from '@/store/game/useGameStore'
 import { useUserStore } from '@/store/user/useUserStore'
 import { getUser } from '@/store/user/userSelectors'
 
 import styles from './LandSpace.module.scss'
-import useLand from './useLand'
 
 function LandSpace({
   x,
@@ -25,25 +26,37 @@ function LandSpace({
 
   const isGameStarted = game?.players.black && game?.players.white
 
-  const myTurn =
-    (turn === Turn.BLACK && user?.id === game?.players.black) ||
-    (turn === Turn.WHITE && user?.id === game?.players.white)
+  const playerTurn = (() => {
+    if (game?.players.black === user?.id) {
+      return Turn.BLACK
+    }
+    if (game?.players.white === user?.id) {
+      return Turn.WHITE
+    }
+    return null
+  })()
+
+  const coordinate = getCoordinateFromNumber(y, x)
+  const isMyTurn = turn === playerTurn
 
   const disabled =
     entity !== null ||
     !!game?.winner ||
     !!game?.endedAt ||
-    !myTurn ||
+    !isMyTurn ||
     !isGameStarted
 
-  const mutate = useLand(game?.id)
+  const tmp = useGameStore((state) => state.temporaryCoordinate)
+
+  const selected = tmp === coordinate
+
+  const select = useGameStore((state) => state.select)
 
   const handleClick = () => {
     if (disabled) {
       return
     }
-    const coordinate = getCoordinateFromNumber(y, x)
-    mutate(coordinate)
+    select(coordinate)
   }
 
   const PieceComponent = isPiece(entity) && (
@@ -75,6 +88,19 @@ function LandSpace({
     </div>
   )
 
+  const SelectedPiece = selected && isMyTurn && (
+    <div className={styles.pieceWrapper}>
+      <div
+        className={classNames(styles.piece, styles.selectedPiece, {
+          [styles.white]: turn === Turn.WHITE,
+          [styles.black]: turn === Turn.BLACK,
+        })}
+      >
+        <ArrowDropDownIcon />
+      </div>
+    </div>
+  )
+
   return (
     <button
       className={classNames(styles.wrapper, {
@@ -88,6 +114,7 @@ function LandSpace({
       {HoverPiece}
       {PieceComponent}
       {Empty}
+      {SelectedPiece}
     </button>
   )
 }

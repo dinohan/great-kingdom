@@ -53,6 +53,14 @@
       background-color: #6c6c6c;
     }
 
+    &.selectedPiece {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      color: white;
+    }
+
     &.hoverPiece {
       opacity: 0;
     }

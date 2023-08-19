@@ -6,6 +6,8 @@ import { build, getBoardFromLog } from 'utils'
 import Grid from '@/components/Grid'
 import socket from '@/features/effects/socket'
 import { useGame, useJoin } from '@/features/games'
+import useLand from '@/features/lands/useLand'
+import { useGameStore } from '@/store/game/useGameStore'
 
 import styles from './Game.module.scss'
 
@@ -14,7 +16,11 @@ function Game() {
 
   const queryClient = useQueryClient()
 
+  const temporaryCoordinate = useGameStore((state) => state.temporaryCoordinate)
+
   useJoin()
+
+  const land = useLand(game?.id)
 
   useEffect(() => {
     if (!game?.id) {
@@ -38,6 +44,14 @@ function Game() {
     return <div>Loading...</div>
   }
 
+  const handleSubmit = () => {
+    if (!temporaryCoordinate) {
+      return
+    }
+
+    land(temporaryCoordinate)
+  }
+
   const board = build(getBoardFromLog(game.log))
 
   return (
@@ -47,7 +61,7 @@ function Game() {
       </main>
       <aside>
         <section>
-          <button>착수</button>
+          <button onClick={handleSubmit}>착수</button>
           <button>건너뛰기</button>
           <button>기권</button>
         </section>
