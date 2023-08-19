@@ -28,6 +28,8 @@ function LandSpace({
 
   const tmp = useGameStore((state) => state.temporaryCoordinate)
 
+  const isLastLand = game?.log.at(-1) === coordinate
+
   const selected = tmp === coordinate
 
   const select = useGameStore((state) => state.select)
@@ -47,7 +49,9 @@ function LandSpace({
           [styles.black]: entity === Piece.Black,
           [styles.neutral]: entity === Piece.Neutral,
         })}
-      />
+      >
+        {isLastLand && <ArrowDropDownIcon />}
+      </div>
     </div>
   )
 
@@ -71,7 +75,7 @@ function LandSpace({
   const SelectedPiece = selected && isUserTurn && (
     <div className={styles.pieceWrapper}>
       <div
-        className={classNames(styles.piece, styles.selectedPiece, {
+        className={classNames(styles.piece, {
           [styles.white]: turn === Turn.WHITE,
           [styles.black]: turn === Turn.BLACK,
         })}
