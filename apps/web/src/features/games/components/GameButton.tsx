@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import useLand from '@/features/lands/useLand'
 import { useGameStore } from '@/store/game/useGameStore'
 
-import useGame from '../useGame'
+import useGame from '../hooks/useGame'
 
 function GameButton() {
   const { game, isUserTurn } = useGame()

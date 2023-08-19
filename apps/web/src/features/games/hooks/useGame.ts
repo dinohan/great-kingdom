@@ -4,7 +4,8 @@ import { Turn } from 'models'
 import { useUserStore } from '@/store/user/useUserStore'
 import { getUser } from '@/store/user/userSelectors'
 
-import { makeGameQuery } from './games.query'
+import { makeGameQuery } from '../games.query'
+
 import useGameId from './useGameId'
 
 function useGame() {

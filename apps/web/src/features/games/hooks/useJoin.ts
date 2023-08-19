@@ -5,9 +5,8 @@ import { useMutation } from '@tanstack/react-query'
 import { useUserStore } from '@/store/user/useUserStore'
 import { getUser } from '@/store/user/userSelectors'
 
-import { reqeustPostJoinGame } from './games.query'
-
-import { useGame } from '.'
+import { useGame } from '..'
+import { reqeustPostJoinGame } from '../games.query'
 
 export default function useJoin() {
   const { game } = useGame()
