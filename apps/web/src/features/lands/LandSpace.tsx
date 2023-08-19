@@ -75,7 +75,7 @@ function LandSpace({
   const SelectedPiece = selected && isUserTurn && (
     <div className={styles.pieceWrapper}>
       <div
-        className={classNames(styles.piece, {
+        className={classNames(styles.piece, styles.selectedPiece, {
           [styles.white]: turn === Turn.WHITE,
           [styles.black]: turn === Turn.BLACK,
         })}

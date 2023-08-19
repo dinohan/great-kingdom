@@ -57,6 +57,10 @@
       background-color: #6c6c6c;
     }
 
+    &.selectedPiece {
+      opacity: 0.5;
+    }
+
     &.hoverPiece {
       opacity: 0;
     }
