@@ -4,9 +4,6 @@ import { Turn } from 'models';
 
 export class CreateGameDTO implements Interface {
   @IsString()
-  readonly title: string;
-
-  @IsString()
   @IsOptional()
   turn: Turn | null = null;
 }

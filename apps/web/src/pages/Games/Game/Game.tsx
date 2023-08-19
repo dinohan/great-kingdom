@@ -44,7 +44,6 @@ function Game() {
     <div className={styles.wrapper}>
       <Grid board={board} />
       <section className={styles.meat}>
-        <h1>{game.title}</h1>
         <div>
           {game.players.black} vs {game.players.white}
           {game.score.black} - {game.score.white}

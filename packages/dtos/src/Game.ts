@@ -11,7 +11,6 @@ export interface Game extends GameKey, ITimeStamp {
     [Turn.BLACK]?: string
     [Turn.WHITE]?: string
   }
-  title: string
   endedAt?: string
   winner?: Turn
   score: {

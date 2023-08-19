@@ -1,7 +1,6 @@
 import { Land, Turn } from 'models'
 
 export interface CreateGameDTO {
-  title: string
   /**
    * @default null
    * @description

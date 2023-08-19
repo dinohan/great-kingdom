@@ -58,7 +58,6 @@ export class GamesService {
         [Turn.BLACK]: 0,
         [Turn.WHITE]: 0,
       },
-      title: createGameDTO.title,
     };
 
     const created = await this.gameModel.create(newGame);

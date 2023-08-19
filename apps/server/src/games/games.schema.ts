@@ -6,9 +6,6 @@ export const GameSchema = new Schema(
       type: String,
       hashKey: true,
     },
-    title: {
-      type: String,
-    },
     log: {
       type: Array,
       schema: [String],
