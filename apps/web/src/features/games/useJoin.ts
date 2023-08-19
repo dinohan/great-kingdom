@@ -10,7 +10,7 @@ import { reqeustPostJoinGame } from './games.query'
 import { useGame } from '.'
 
 export default function useJoin() {
-  const { data: game } = useGame()
+  const { game } = useGame()
 
   const user = useUserStore(getUser)
 

@@ -5,8 +5,6 @@ import { getCoordinateFromNumber } from 'utils'
 
 import { useGame } from '@/features/games'
 import { useGameStore } from '@/store/game/useGameStore'
-import { useUserStore } from '@/store/user/useUserStore'
-import { getUser } from '@/store/user/userSelectors'
 
 import styles from './LandSpace.module.scss'
 
@@ -19,32 +17,14 @@ function LandSpace({
   y: number
   entity: Piece | House | null
 }) {
-  const { data: game } = useGame()
-  const user = useUserStore(getUser)
+  const { game, isUserTurn, isGameEnded, isGameStarted } = useGame()
 
   const turn = (game?.log.length ?? 0) % 2 === 0 ? Turn.BLACK : Turn.WHITE
 
-  const isGameStarted = game?.players.black && game?.players.white
-
-  const playerTurn = (() => {
-    if (game?.players.black === user?.id) {
-      return Turn.BLACK
-    }
-    if (game?.players.white === user?.id) {
-      return Turn.WHITE
-    }
-    return null
-  })()
-
   const coordinate = getCoordinateFromNumber(y, x)
-  const isMyTurn = turn === playerTurn
 
   const disabled =
-    entity !== null ||
-    !!game?.winner ||
-    !!game?.endedAt ||
-    !isMyTurn ||
-    !isGameStarted
+    entity !== null || isGameEnded || !isUserTurn || !isGameStarted
 
   const tmp = useGameStore((state) => state.temporaryCoordinate)
 
@@ -88,7 +68,7 @@ function LandSpace({
     </div>
   )
 
-  const SelectedPiece = selected && isMyTurn && (
+  const SelectedPiece = selected && isUserTurn && (
     <div className={styles.pieceWrapper}>
       <div
         className={classNames(styles.piece, styles.selectedPiece, {

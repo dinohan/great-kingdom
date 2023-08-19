@@ -12,7 +12,7 @@ import { useGameStore } from '@/store/game/useGameStore'
 import styles from './Game.module.scss'
 
 function Game() {
-  const { data: game } = useGame()
+  const { game } = useGame()
 
   const queryClient = useQueryClient()
 
