@@ -42,18 +42,27 @@ function Game() {
 
   return (
     <div className={styles.wrapper}>
-      <Grid board={board} />
-      <section className={styles.meat}>
-        <div>
-          {game.players.black} vs {game.players.white}
-          {game.score.black} - {game.score.white}
-        </div>
-        <ol>
-          {game.log.map((land, index) => (
-            <li key={index}>{land}</li>
-          ))}
-        </ol>
-      </section>
+      <main className={styles.gameSection}>
+        <Grid board={board} />
+      </main>
+      <aside>
+        <section>
+          <button>착수</button>
+          <button>건너뛰기</button>
+          <button>기권</button>
+        </section>
+        <section className={styles.metaSection}>
+          <div>
+            {game.players.black} vs {game.players.white}
+            {game.score.black} - {game.score.white}
+          </div>
+          <ol>
+            {game.log.map((land, index) => (
+              <li key={index}>{land}</li>
+            ))}
+          </ol>
+        </section>
+      </aside>
     </div>
   )
 }

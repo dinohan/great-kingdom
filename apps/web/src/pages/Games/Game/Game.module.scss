@@ -1,7 +1,24 @@
 .wrapper {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
 
-  .meta {
+  .gameSection {
+    width: 100%;
+    max-width: 100vh;
+    max-height: 100vh;
+
+    aspect-ratio: 1;
+    flex-grow: 1;
+    flex-shrink: 0;
+  }
+
+  aside {
+    flex-shrink: 0;
+
+    .metaSection {
+      flex-shrink: 0;
+      width: 20rem;
+      padding: 1rem;
+    }
   }
 }
