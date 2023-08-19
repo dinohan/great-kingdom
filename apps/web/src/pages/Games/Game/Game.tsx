@@ -24,9 +24,7 @@ function Game() {
     socket.emit('join-game', {
       gameId: game.id,
     })
-  }, [game?.id])
 
-  useEffect(() => {
     socket.on('update-game', (data) => {
       if (!data.game.id) {
         return
@@ -34,7 +32,7 @@ function Game() {
 
       queryClient.setQueryData(['games', data.game.id], data.game)
     })
-  }, [queryClient])
+  }, [game?.id, queryClient])
 
   if (!game) {
     return <div>Loading...</div>
