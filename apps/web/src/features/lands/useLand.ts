@@ -2,9 +2,12 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Game } from 'dtos'
 import { Land } from 'models'
 
+import { useGameStore } from '@/store/game/useGameStore'
+
 import { requestPostLands } from './lands.query'
 
 function useLand(gameId?: string) {
+  const reset = useGameStore((state) => state.reset)
   const queryClient = useQueryClient()
 
   const { mutate } = useMutation({
@@ -15,6 +18,7 @@ function useLand(gameId?: string) {
       return requestPostLands({ gameId, land }).run()
     },
     onMutate: (land) => {
+      reset()
       queryClient.setQueryData<Game>(
         ['games', gameId],
         (old: Game | undefined) => {

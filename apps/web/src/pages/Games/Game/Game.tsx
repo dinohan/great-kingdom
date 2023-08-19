@@ -12,11 +12,12 @@ import { useGameStore } from '@/store/game/useGameStore'
 import styles from './Game.module.scss'
 
 function Game() {
-  const { game } = useGame()
+  const { game, isUserTurn } = useGame()
 
   const queryClient = useQueryClient()
 
   const temporaryCoordinate = useGameStore((state) => state.temporaryCoordinate)
+  const resetTmp = useGameStore((state) => state.reset)
 
   useJoin()
 
@@ -40,6 +41,8 @@ function Game() {
     })
   }, [game?.id, queryClient])
 
+  useEffect(() => () => resetTmp(), [resetTmp])
+
   if (!game) {
     return <div>Loading...</div>
   }
@@ -52,6 +55,10 @@ function Game() {
     land(temporaryCoordinate)
   }
 
+  const handlePass = () => {
+    land('PS')
+  }
+
   const board = build(getBoardFromLog(game.log))
 
   return (
@@ -61,8 +68,18 @@ function Game() {
       </main>
       <aside>
         <section>
-          <button onClick={handleSubmit}>착수</button>
-          <button>건너뛰기</button>
+          <button
+            disabled={!isUserTurn}
+            onClick={handleSubmit}
+          >
+            착수
+          </button>
+          <button
+            disabled={!isUserTurn}
+            onClick={handlePass}
+          >
+            건너뛰기
+          </button>
           <button>기권</button>
         </section>
         <section className={styles.metaSection}>
