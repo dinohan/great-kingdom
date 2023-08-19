@@ -1,11 +1,9 @@
 import { useEffect } from 'react'
 
-import { useQueryClient } from '@tanstack/react-query'
 import { build, getBoardFromLog } from 'utils'
 
 import Grid from '@/components/Grid'
-import socket from '@/features/effects/socket'
-import { useGame, useJoin } from '@/features/games'
+import { useGame, useGameSocket, useJoin } from '@/features/games'
 import useLand from '@/features/lands/useLand'
 import { useGameStore } from '@/store/game/useGameStore'
 
@@ -14,32 +12,13 @@ import styles from './Game.module.scss'
 function Game() {
   const { game, isUserTurn } = useGame()
 
-  const queryClient = useQueryClient()
-
   const temporaryCoordinate = useGameStore((state) => state.temporaryCoordinate)
   const resetTmp = useGameStore((state) => state.reset)
 
   useJoin()
+  useGameSocket(game?.id)
 
   const land = useLand(game?.id)
-
-  useEffect(() => {
-    if (!game?.id) {
-      return
-    }
-
-    socket.emit('join-game', {
-      gameId: game.id,
-    })
-
-    socket.on('update-game', (data) => {
-      if (!data.game.id) {
-        return
-      }
-
-      queryClient.setQueryData(['games', data.game.id], data.game)
-    })
-  }, [game?.id, queryClient])
 
   useEffect(() => () => resetTmp(), [resetTmp])
 
