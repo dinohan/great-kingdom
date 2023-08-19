@@ -90,6 +90,10 @@ export class GamesService {
       { players },
     );
 
+    this.eventsGateway.server.to(gameId).emit('update-game', {
+      game: updatedGame,
+    });
+
     return updatedGame;
   }
 
