@@ -17,6 +17,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.15.0",
+    "socket.io-client": "^4.7.2",
     "utils": "*",
     "zustand": "^4.4.1"
   },
@@ -26,6 +27,7 @@
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "@vitejs/plugin-react": "^4.0.3",
+    "dtos": "*",
     "eslint": "^8.45.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-import": "^2.28.0",
@@ -34,7 +36,6 @@
     "sass": "^1.65.1",
     "typescript": "^5.0.2",
     "vite": "^4.4.5",
-    "vite-tsconfig-paths": "^4.2.0",
-    "dtos": "*"
+    "vite-tsconfig-paths": "^4.2.0"
   }
 }
