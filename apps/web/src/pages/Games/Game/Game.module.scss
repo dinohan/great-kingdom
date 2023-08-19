@@ -1,15 +1,8 @@
 .wrapper {
   display: flex;
-  flex-wrap: wrap;
 
   .gameSection {
     width: 100%;
-    max-width: 100vh;
-    max-height: 100vh;
-
-    aspect-ratio: 1;
-    flex-grow: 1;
-    flex-shrink: 0;
   }
 
   aside {
