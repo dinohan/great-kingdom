@@ -25,7 +25,7 @@ export default function useJoin() {
       return
     }
 
-    if (!user.id) {
+    if (!user?.id) {
       return
     }
 

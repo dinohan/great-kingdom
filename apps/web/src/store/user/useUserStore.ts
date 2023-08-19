@@ -2,7 +2,7 @@ import { UserWithoutCredentials } from 'dtos'
 import { create } from 'zustand'
 
 export type State = {
-  user: UserWithoutCredentials
+  user: UserWithoutCredentials | null
 }
 
 export type Actions = {
@@ -10,13 +10,7 @@ export type Actions = {
 }
 
 const initialState: State = {
-  user: {
-    id: '',
-    email: '',
-    nickname: '',
-    createdAt: '',
-    updatedAt: '',
-  },
+  user: null,
 }
 
 export const useUserStore = create<State & Actions>((set) => ({

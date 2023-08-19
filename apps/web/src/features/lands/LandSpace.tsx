@@ -3,6 +3,8 @@ import { House, Piece, Turn, isPiece } from 'models'
 import { getCoordinateFromNumber } from 'utils'
 
 import { useGame } from '@/features/games'
+import { useUserStore } from '@/store/user/useUserStore'
+import { getUser } from '@/store/user/userSelectors'
 
 import styles from './LandSpace.module.scss'
 import useLand from './useLand'
@@ -17,10 +19,22 @@ function LandSpace({
   entity: Piece | House | null
 }) {
   const { data: game } = useGame()
+  const user = useUserStore(getUser)
 
   const turn = (game?.log.length ?? 0) % 2 === 0 ? Turn.BLACK : Turn.WHITE
 
-  const disabled = entity !== null || !!game?.winner || !!game?.endedAt
+  const isGameStarted = game?.players.black && game?.players.white
+
+  const myTurn =
+    (turn === Turn.BLACK && user?.id === game?.players.black) ||
+    (turn === Turn.WHITE && user?.id === game?.players.white)
+
+  const disabled =
+    entity !== null ||
+    !!game?.winner ||
+    !!game?.endedAt ||
+    !myTurn ||
+    !isGameStarted
 
   const mutate = useLand(game?.id)
 

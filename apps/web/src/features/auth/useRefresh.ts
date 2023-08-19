@@ -22,7 +22,7 @@ export default function useRefresh() {
   const updateUser = useUserStore((store) => store.updateUser)
 
   useEffect(() => {
-    if (!data?.user || data.access_token) {
+    if (!data?.user || !data.access_token) {
       return
     }
 
