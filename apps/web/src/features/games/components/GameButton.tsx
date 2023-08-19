@@ -1,9 +1,13 @@
 import { useEffect } from 'react'
 
+import classNames from 'classnames'
+
 import useLand from '@/features/lands/useLand'
 import { useGameStore } from '@/store/game/useGameStore'
 
 import useGame from '../hooks/useGame'
+
+import styles from './GameButton.module.scss'
 
 function GameButton() {
   const { game, isUserTurn } = useGame()
@@ -28,21 +32,26 @@ function GameButton() {
   }
 
   return (
-    <>
+    <div className={styles.wrapper}>
       <button
-        disabled={!isUserTurn}
+        className={classNames(styles.submit, {
+          [styles.notReady]: !isUserTurn,
+        })}
+        disabled={!isUserTurn || !temporaryCoordinate}
         onClick={handleSubmit}
       >
-        착수
+        {isUserTurn ? '착수' : '상대 턴'}
       </button>
-      <button
-        disabled={!isUserTurn}
-        onClick={handlePass}
-      >
-        건너뛰기
-      </button>
-      <button>기권</button>
-    </>
+
+      <div className={styles.subActions}>
+        <button
+          disabled={!isUserTurn}
+          onClick={handlePass}
+        >
+          건너뛰기
+        </button>
+      </div>
+    </div>
   )
 }
 

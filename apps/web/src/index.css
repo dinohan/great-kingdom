@@ -72,10 +72,11 @@ button:focus-visible {
   }
 }
 
-* {
-  box-sizing: border-box;
-}
-
 button {
   all: unset;
+}
+
+*,
+button {
+  box-sizing: border-box;
 }
