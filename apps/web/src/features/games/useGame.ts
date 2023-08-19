@@ -11,7 +11,7 @@ function useGame() {
   }
 
   return useQuery(...makeGameQuery(id), {
-    staleTime: 1000,
+    staleTime: 10 * 1000,
   })
 }
 

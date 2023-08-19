@@ -20,12 +20,14 @@ import {
 } from 'utils';
 import { Turn, isHouse, isPiece, isCoordinate, isLand } from 'models';
 import { Game, GameKey } from 'dtos';
+import { EventsGateway } from 'src/events/events.gateway';
 
 @Injectable()
 export class GamesService {
   constructor(
     @InjectModel('Game')
     private gameModel: Model<Game, GameKey>,
+    private eventsGateway: EventsGateway,
   ) {}
 
   getAllGames() {
@@ -169,6 +171,10 @@ export class GamesService {
         endedAt: winner ? new Date().toISOString() : undefined,
       },
     );
+
+    this.eventsGateway.server.to(gameId).emit('update-game', {
+      game: updatedGame,
+    });
 
     return updatedGame;
   }
