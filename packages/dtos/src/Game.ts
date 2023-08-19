@@ -1,10 +1,11 @@
 import { Land, Turn } from 'models'
+import { ITimeStamp } from './TimeStamp'
 
 export interface GameKey {
   id: string
 }
 
-export interface Game extends GameKey {
+export interface Game extends GameKey, ITimeStamp {
   log: Land[]
   players: {
     [Turn.BLACK]?: string
