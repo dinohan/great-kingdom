@@ -1,0 +1,9 @@
+@import '../styles/variables.scss';
+
+.wrapper {
+  height: $header-height;
+
+  & h1 {
+    all: unset;
+  }
+}

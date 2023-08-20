@@ -1,9 +1,9 @@
+@import '../../../styles/variables.scss';
 @import '../../../styles/mixin.scss';
 
 .wrapper {
   display: flex;
   flex-direction: row;
-  --content-height: calc(100vh);
   width: 100%;
 
   @include mobile {
@@ -12,16 +12,21 @@
 
   main {
     width: 100%;
-    max-width: var(--content-height);
-    max-height: var(--content-height);
+    max-width: $main-height;
+    max-height: $main-height;
+
+    @include mobile {
+      max-width: unset;
+      max-height: unset;
+    }
   }
 
   aside {
     display: flex;
     flex-direction: column-reverse;
     flex-shrink: 0;
-    min-width: 20rem;
-    max-height: var(--content-height);
+    min-width: $aside-width;
+    max-height: $main-height;
     flex: 1;
     padding: 1rem;
 
@@ -39,7 +44,6 @@
       display: flex;
       flex-flow: column;
       flex: 1;
-      padding: 1rem;
       overflow: hidden;
     }
   }
