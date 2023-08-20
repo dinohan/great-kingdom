@@ -7,8 +7,12 @@ import { useMedia } from '@/hooks/useMedia'
 
 import styles from './Log.module.scss'
 
-function reverseAndSwapPairs<T>(arr: T[]): T[] {
-  const reversed = [...arr].reverse() // 먼저 배열을 뒤집습니다.
+function reverseAndSwapPairs(arr: Land[]): (Land | null)[] {
+  const reversed = [...arr].reverse() as (Land | null)[]
+
+  if (reversed.length % 2 !== 0) {
+    reversed.unshift(null)
+  }
 
   for (let i = 0; i < reversed.length; i += 2) {
     if (i + 1 < reversed.length) {
@@ -28,30 +32,25 @@ function LogContent({ log }: { log: Land[] }) {
   if (media === 'mobile') {
     const reversed = reverseAndSwapPairs(log)
 
-    return (
-      <>
-        {log.length % 2 !== 0 && <li />}
-        {reversed.map((land, index) => (
-          <React.Fragment key={index}>
-            {index % 2 === 0 && (
-              <label className={styles.index}>
-                {' '}
-                {reversed.length / 2 - (index / 2 + 1) + 1}
-              </label>
-            )}
+    return reversed.map((land, index) => (
+      <React.Fragment key={index}>
+        {index % 2 === 0 && (
+          <label className={styles.index}>
+            {' '}
+            {reversed.length / 2 - (index / 2 + 1) + 1}
+          </label>
+        )}
 
-            <li
-              className={classNames({
-                [styles.black]: land === lastLand && log.length % 2 !== 0,
-                [styles.white]: land === lastLand && log.length % 2 === 0,
-              })}
-            >
-              {land}
-            </li>
-          </React.Fragment>
-        ))}
-      </>
-    )
+        <li
+          className={classNames({
+            [styles.black]: land === lastLand && log.length % 2 !== 0,
+            [styles.white]: land === lastLand && log.length % 2 === 0,
+          })}
+        >
+          {land}
+        </li>
+      </React.Fragment>
+    ))
   }
 
   return (
