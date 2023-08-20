@@ -12,7 +12,7 @@ import {
 import styles from './Game.module.scss'
 
 function Game() {
-  const { game } = useGame()
+  const { game, isUserPlayer } = useGame()
 
   useJoin()
   useGameSocket(game?.id)
@@ -30,9 +30,11 @@ function Game() {
           <Grid board={board} />
         </main>
         <aside>
-          <section className={styles.buttonSection}>
-            <GameButton />
-          </section>
+          {isUserPlayer && (
+            <section className={styles.buttonSection}>
+              <GameButton />
+            </section>
+          )}
           <section className={styles.metaSection}>
             <Log log={game.log} />
           </section>

@@ -34,9 +34,13 @@ function useGame() {
 
   const isUserTurn = turn === playerTurn
 
+  const isUserPlayer =
+    game?.players.black === user?.id || game?.players.white === user?.id
+
   return {
     game,
     isUserTurn,
+    isUserPlayer,
     isGameEnded: !!game?.winner || !!game?.endedAt,
     isGameStarted: game?.players.black && game?.players.white,
   }
