@@ -16,6 +16,8 @@
     max-height: $main-height;
 
     @include mobile {
+      width: 100vw;
+      height: 100vw;
       max-width: unset;
       max-height: unset;
     }
