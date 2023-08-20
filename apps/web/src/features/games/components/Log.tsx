@@ -31,6 +31,9 @@ function Log({ log }: { log: Land[] }) {
       className={styles.wrapper}
     >
       <ol>
+        <label className={styles.index} />
+        <li>🟦</li>
+        <li>🟧</li>
         {log.map((land, index) => (
           <React.Fragment key={index}>
             {index % 2 === 0 && (
@@ -40,6 +43,8 @@ function Log({ log }: { log: Land[] }) {
             <li>{land}</li>
           </React.Fragment>
         ))}
+
+        {log.length % 2 !== 0 && <li />}
       </ol>
     </div>
   )
