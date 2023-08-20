@@ -10,18 +10,22 @@
 
   main {
     width: 100%;
+    max-width: 100vh;
+    max-height: 100vh;
   }
 
   aside {
     display: flex;
     flex-direction: column-reverse;
     flex-shrink: 0;
-    width: 20rem;
+    min-width: 20rem;
+    max-height: 100vh;
     padding: 1rem;
 
     @include mobile {
       padding-top: 0;
       flex-direction: column;
+      max-height: unset;
     }
 
     .buttonSection {
@@ -32,6 +36,7 @@
       display: flex;
       flex-flow: column;
       padding: 1rem;
+      overflow: hidden;
     }
   }
 }
