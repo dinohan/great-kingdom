@@ -1,0 +1,13 @@
+.wrapper {
+  overflow: auto;
+
+  ol {
+    display: grid;
+    grid-template-columns: 0fr 1fr 1fr;
+    align-items: center;
+  }
+
+  .index {
+    padding: 0 0.5rem;
+  }
+}
