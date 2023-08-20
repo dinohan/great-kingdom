@@ -1,3 +1,5 @@
+@import '../../styles/mixin.module.scss';
+
 .wrapper {
   position: relative;
   width: 100%;
@@ -13,7 +15,7 @@
     background-color: #bfbfbf;
   }
 
-  &:hover {
+  @include hover {
     .piece.hoverPiece {
       opacity: 0.5;
     }
