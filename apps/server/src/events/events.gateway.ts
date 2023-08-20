@@ -12,7 +12,7 @@ import { Namespace, Socket } from 'socket.io';
 @WebSocketGateway({
   namespace: 'game',
   cors: {
-    origin: ['http://localhost:5173'],
+    origin: ['http://localhost:5173', 'https://gk.dinohan.dev'],
   },
 })
 export class EventsGateway {

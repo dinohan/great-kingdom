@@ -13,7 +13,7 @@ async function bootstrap() {
     }),
   );
   app.enableCors({
-    origin: ['http://localhost:5173'],
+    origin: ['http://localhost:5173', 'https://gk.dinohan.dev'],
     credentials: true,
   });
   app.use(cookieParser());
