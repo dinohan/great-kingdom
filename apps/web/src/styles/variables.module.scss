@@ -1,0 +1,19 @@
+$breakpoint-mobile: 280px;
+$breakpoint-tablet: 758px;
+$breakpoint-desktop: 1024px;
+
+$header-height: 40px;
+$aside-width: 20rem;
+$main-height: min(
+  calc(100vw - #{$aside-width}),
+  calc(100vh - #{$header-height})
+);
+
+:export {
+  breakpointMobile: $breakpoint-mobile;
+  breakpointTablet: $breakpoint-tablet;
+  breakpointDesktop: $breakpoint-desktop;
+  headerHeight: $header-height;
+  asideWidth: $aside-width;
+  mainHeight: $main-height;
+}
