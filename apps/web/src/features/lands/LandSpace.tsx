@@ -27,6 +27,7 @@ function LandSpace({
     entity !== null || isGameEnded || !isUserTurn || !isGameStarted
 
   const tmp = useGameStore((state) => state.temporaryCoordinate)
+  const reset = useGameStore((state) => state.reset)
 
   const isLastLand = game?.log.at(-1) === coordinate
 
@@ -36,6 +37,10 @@ function LandSpace({
 
   const handleClick = () => {
     if (disabled) {
+      return
+    }
+    if (selected) {
+      reset()
       return
     }
     select(coordinate)
