@@ -69,7 +69,7 @@ export class AuthService {
 
     return {
       refreshToken: token,
-      domain: 'localhost',
+      domain: this.configService.get('FRONTEND_URL_DOMAIN'),
       path: '/',
       httpOnly: true,
       maxAge: Number(
@@ -81,7 +81,7 @@ export class AuthService {
   getCookiesForLogOut() {
     return {
       refreshOption: {
-        domain: 'localhost',
+        domain: this.configService.get('FRONTEND_URL_DOMAIN'),
         path: '/',
         httpOnly: true,
         maxAge: 0,

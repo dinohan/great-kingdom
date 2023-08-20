@@ -10,6 +10,7 @@ export type ResponseDTO = {
   'POST/auth/sign-up': UserWithoutCredentials
   'POST/auth/sign-in': AccessToeknResponse
   'GET/auth/refresh': AccessToeknResponse
+  'GET/auth/me': UserWithoutCredentials
   'GET/games': Game[]
   'GET/games/:id': Game
   'POST/games': Game

@@ -17,6 +17,7 @@ import { LocalAuthGuard } from './guards/local-auth.guard';
 import { RequestWithJWT } from './jwt.entity';
 import { JwtRefreshGuard } from './guards/jwt-refresh.guard';
 import { ResponseDTO } from 'dtos';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -74,5 +75,19 @@ export class AuthController {
       access_token: accessToken,
       user,
     };
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/me')
+  async me(@Req() req: RequestWithJWT): Promise<ResponseDTO['GET/auth/me']> {
+    const userId = req.user.id;
+
+    const user = await this.usersService.findOne(userId);
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    return user;
   }
 }
