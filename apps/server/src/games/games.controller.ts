@@ -10,7 +10,6 @@ import {
 import { GamesService } from './games.service';
 import { CreateGameDTO } from './dto/create-game.dto';
 import { LandDTO } from './dto/land.dto';
-import { JoinDTO } from './dto/add-player.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { RequestWithJWT } from 'src/auth/jwt.entity';
 import { ResponseDTO } from 'dtos';
