@@ -1,11 +1,16 @@
 @import '../styles/variables.module.scss';
 
 .wrapper {
+  position: sticky;
+  top: 0;
+  z-index: $header_zindex;
   height: $header-height;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 1rem 1rem 0;
+  background-color: white;
+  box-shadow: 0 -#{$header-height} 0 0 white;
 
   & h1 {
     all: unset;
