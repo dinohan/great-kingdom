@@ -2,8 +2,17 @@
 
 .wrapper {
   height: $header-height;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1rem 0;
 
   & h1 {
     all: unset;
+  }
+
+  & svg {
+    width: 2rem;
+    height: 2rem;
   }
 }
